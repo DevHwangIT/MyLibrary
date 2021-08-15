@@ -1,2 +1,2 @@
 # MyLibrary
-Private Unity Library
+My Unity Library
