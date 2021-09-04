@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 44787120}
   - component: {fileID: 44787119}
-  - component: {fileID: 44787121}
   m_Layer: 0
   m_Name: PoolingManager
   m_TagString: Untagged
@@ -178,28 +177,59 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &44787121
+--- !u!1 &648320342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 648320344}
+  - component: {fileID: 648320343}
+  m_Layer: 0
+  m_Name: ObjectPoolSample
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &648320343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44787118}
+  m_GameObject: {fileID: 648320342}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6994b429ffdbb4ab98bde331f205dab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CapsulePrefab: {fileID: 7089850454407362633, guid: 06a08c27c08e24a9caddbe82dd6377a9,
+  capsulePrefab: {fileID: 7089850454407362633, guid: 06a08c27c08e24a9caddbe82dd6377a9,
     type: 3}
-  CubePrefab: {fileID: 1207261195470971956, guid: 4f973fe04d73d4637bea74c818e4e8d2,
+  cubePrefab: {fileID: 1207261195470971956, guid: 4f973fe04d73d4637bea74c818e4e8d2,
     type: 3}
-  CylinderPrefab: {fileID: 485580806535564413, guid: e80f9b715a9b44710a13814c832c1204,
+  cylinderPrefab: {fileID: 485580806535564413, guid: e80f9b715a9b44710a13814c832c1204,
     type: 3}
-  SpherePrefab: {fileID: 4331186142610319291, guid: c32aaebe81cef45748ba4857026cccc2,
+  spherePrefab: {fileID: 4331186142610319291, guid: c32aaebe81cef45748ba4857026cccc2,
     type: 3}
-  FailedPrefab: {fileID: 5721913615568258680, guid: 99f0aff47638c4ce38d4d3f20923eb7e,
+  notInsidePrefab: {fileID: 5721913615568258680, guid: 99f0aff47638c4ce38d4d3f20923eb7e,
     type: 3}
+--- !u!4 &648320344
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648320342}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9771452, y: -6.314185, z: -3.6158228}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &884884059
 GameObject:
   m_ObjectHideFlags: 0
