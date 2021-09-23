@@ -8,7 +8,7 @@ namespace MyLibrary
 {
 	public class DebugSystemEditor : Editor
 	{
-		[MenuItem("Aloha/Debug/Create Debug Instance")]
+		[MenuItem("MyLibrary/Tools/Debug/Create Debug Instance")]
 		public static void CreateInstanceBinder()
 		{
 			DebugSystem initInstance = DebugSystem.Instance;
