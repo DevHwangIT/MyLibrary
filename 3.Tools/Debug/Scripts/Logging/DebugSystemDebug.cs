@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-namespace MyLibrary
+namespace MyLibrary.Tools
 {
     public static class DebugSystemDebug
     {

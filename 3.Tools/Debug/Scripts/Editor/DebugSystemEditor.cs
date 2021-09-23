@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace MyLibrary
+namespace MyLibrary.Tools
 {
 	public class DebugSystemEditor : Editor
 	{

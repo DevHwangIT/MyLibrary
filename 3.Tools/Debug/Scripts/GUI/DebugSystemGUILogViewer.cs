@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MyLibrary
+namespace MyLibrary.Tools
 {
     public class DebugSystemGUILogViewer : MonoBehaviour, IDebugSystemGUI
     {

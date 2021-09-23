@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace MyLibrary
+namespace MyLibrary.Tools
 {
     [RequireComponent(typeof(DebugEventHandler), typeof(DebugSystemGUI))]
     public class DebugSystem : MonoBehaviour

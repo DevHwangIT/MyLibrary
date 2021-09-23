@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MyLibrary
+namespace MyLibrary.Tools
 {
     [System.Serializable]
     public struct CheatEvent

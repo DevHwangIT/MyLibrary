@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using MyLibrary;
 
-namespace MyLibrary.Sample
+namespace MyLibrary.Tools.Sample
 {
     public class DebugSample : MonoBehaviour
     {

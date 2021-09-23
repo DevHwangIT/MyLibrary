@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MyLibrary
+namespace MyLibrary.Tools
 {
     public class DebugSystemGUISystemViewer : MonoBehaviour, IDebugSystemGUI
     {
