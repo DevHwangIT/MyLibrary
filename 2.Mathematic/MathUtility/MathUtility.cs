@@ -16,9 +16,10 @@ namespace MyLibrary.Mathematic
             return addValue;
         }
 
-        public static float GetPercent(float wholeValue, float percent)
+        public static float GetPercent(float wholeValue, float maximumValue)
         {
-            var value = (wholeValue * percent) / 100.0f;
+            var value = wholeValue / maximumValue;
+            value = Mathf.Clamp(value, 0, 1) * 100f;
             return value;
         }
 
