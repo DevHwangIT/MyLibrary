@@ -54,8 +54,8 @@ namespace MyLibrary.Manager
             }
         }
 
-        public const float MinimumVolum = -40f;
-        public const float MaximumVolum = 0f;
+        private const float MinimumVolum = -40f;
+        private const float MaximumVolum = 0f;
         
         public float MasterVolum
         {

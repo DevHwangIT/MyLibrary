@@ -27,9 +27,9 @@ namespace MyLibrary.Tools
         }
         #endregion
         
-        //Scriptable Object
-        private DebugSystemDataScriptable _debugSystemData;
-        private DebugSystemGUIDataScriptable _debugSystemGUIData;
+        [Header("Scriptable Object")]
+        [SerializeField] private DebugSystemDataScriptable _debugSystemData;
+        [SerializeField] private DebugSystemGUIDataScriptable _debugSystemGUIData;
         
         //GUI Viwer
         private DebugSystemGUICheatViewer _cheatGUIViewer;
@@ -67,9 +67,12 @@ namespace MyLibrary.Tools
                 else
                     _systemGUIViewer = gameObject.AddComponent<DebugSystemGUISystemViewer>();
             }
-            
-            _debugSystemData = (DebugSystemDataScriptable) AssetDatabase.LoadAssetAtPath("Assets/MyLibrary/Tools/Debug/Resources/Data/DebugSystemData.asset", typeof(ScriptableObject));
-            _debugSystemGUIData = (DebugSystemGUIDataScriptable) AssetDatabase.LoadAssetAtPath("Assets/MyLibrary/Tools/Debug/Resources/Data/DebugSystemGUIData.asset", typeof(ScriptableObject));
+
+            if (_debugSystemData == null)
+                _debugSystemData = (DebugSystemDataScriptable) AssetDatabase.LoadAssetAtPath("Assets/MyLibrary/3.Tools/Debug/Resources/Data/DebugSystemData.asset", typeof(ScriptableObject));
+
+            if (_debugSystemGUIData == null)
+                _debugSystemGUIData = (DebugSystemGUIDataScriptable) AssetDatabase.LoadAssetAtPath("Assets/MyLibrary/3.Tools/Debug/Resources/Data/DebugSystemGUIData.asset", typeof(ScriptableObject));
 
             if (_debugSystemData == null || _debugSystemGUIData == null)
             {
