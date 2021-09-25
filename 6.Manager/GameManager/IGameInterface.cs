@@ -1,31 +1,32 @@
 ﻿namespace MyLibrary.Manager
 {
-    enum GameState
+    public enum GamePlayState
     {
         Play,
         Pause,
         Resume,
-        End,
+        Quit,
         None
     }
 
-    enum InGameState
+    public enum GamePlayResult
     {
         Win,
         Lose,
         Draw,
         None
     }
-
-    public interface IGameState
+    
+    public interface IGamePlayState
     {
         void GamePlayCallBack();
         void GamePauseCallBack();
         void GameResumeCallBack();
-        void GameEndCallBack();
+        
+        void GameQuitCallBack();
     }
 
-    public interface IInGameState
+    public interface IGamePlayResult
     {
         void InGameWinCallback();
         void InGameLoseCallback();
