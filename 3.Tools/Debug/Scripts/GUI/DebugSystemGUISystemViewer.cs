@@ -53,8 +53,7 @@ namespace MyLibrary.Tools
             systeminfoString.Append("Screen: " + UnityStats.screenRes + "\n");
             systeminfoString.Append("SetPass call: " + UnityStats.setPassCalls + " \t " + "Shadow caster: " +
                                     UnityStats.shadowCasters + "\n");
-            systeminfoString.Append("Visible skinned meshes: " + UnityStats.visibleSkinnedMeshes + " \t " +
-                                    "Animations: " + UnityStats.visibleAnimations + "\n");
+            systeminfoString.Append("Visible skinned meshes: " + UnityStats.visibleSkinnedMeshes + "\n");
             GUILayout.Label(systeminfoString.ToString());
 
 
