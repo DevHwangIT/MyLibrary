@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
-	[DisallowMultipleComponent, ExecuteInEditMode, AddComponentMenu("UI/Window", 58), RequireComponent(typeof(CanvasGroup))]
+[DisallowMultipleComponent, ExecuteInEditMode, AddComponentMenu("UI/Window", 58), RequireComponent(typeof(CanvasGroup))]
 	public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPointerDownHandler {
 		
 		public enum Transition
