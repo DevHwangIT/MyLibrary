@@ -123,10 +123,6 @@ namespace DuloGames.UI
             this.m_Velocity = Vector2.zero;
         }
 
-        /// <summary>
-        /// Raises the begin drag event.
-        /// </summary>
-        /// <param name="data">Data.</param>
         public void OnBeginDrag(PointerEventData data)
         {
             if (!this.IsActive())
@@ -137,15 +133,10 @@ namespace DuloGames.UI
             this.m_Velocity = Vector2.zero;
             this.m_Dragging = true;
 
-            // Invoke the event
             if (this.onBeginDrag != null)
                 this.onBeginDrag.Invoke(data as BaseEventData);
         }
 
-        /// <summary>
-        /// Raises the end drag event.
-        /// </summary>
-        /// <param name="data">Data.</param>
         public void OnEndDrag(PointerEventData data)
         {
             this.m_Dragging = false;
@@ -158,10 +149,6 @@ namespace DuloGames.UI
                 this.onEndDrag.Invoke(data as BaseEventData);
         }
 
-        /// <summary>
-        /// Raises the drag event.
-        /// </summary>
-        /// <param name="data">Data.</param>
         public void OnDrag(PointerEventData data)
         {
             if (!this.IsActive() || this.m_Canvas == null)
@@ -187,23 +174,17 @@ namespace DuloGames.UI
                 newPosition.y = this.m_Target.anchoredPosition.y;
             }
 
-            // Apply the position change
             this.m_Target.anchoredPosition = newPosition;
 
-            // Invoke the event
             if (this.onDrag != null)
                 this.onDrag.Invoke(data as BaseEventData);
         }
-
-        /// <summary>
-        /// Lates the update.
-        /// </summary>
+        
         protected virtual void LateUpdate()
         {
             if (!this.m_Target)
                 return;
 
-            // Capture the velocity of our drag to be used for the inertia
             if (this.m_Dragging && this.m_Inertia)
             {
                 Vector3 to = (this.m_Target.anchoredPosition - this.m_LastPosition) / Time.unscaledDeltaTime;
@@ -212,17 +193,14 @@ namespace DuloGames.UI
 
             this.m_LastPosition = this.m_Target.anchoredPosition;
 
-            // Handle inertia only when not dragging
             if (!this.m_Dragging && this.m_Velocity != Vector2.zero)
             {
                 Vector2 anchoredPosition = this.m_Target.anchoredPosition;
 
-                // Dampen the inertia
                 this.Dampen(ref this.m_Velocity, this.m_DampeningRate, Time.unscaledDeltaTime);
 
                 for (int i = 0; i < 2; i++)
                 {
-                    // Calculate the inerta amount to be applied on this update
                     if (this.m_Inertia)
                     {
                         anchoredPosition[i] += this.m_Velocity[i] * Time.unscaledDeltaTime;
@@ -235,7 +213,6 @@ namespace DuloGames.UI
 
                 if (this.m_Velocity != Vector2.zero)
                 {
-                    // Restrict movement on the axis
                     if (!this.m_Horizontal)
                     {
                         anchoredPosition.x = this.m_Target.anchoredPosition.x;
@@ -245,7 +222,6 @@ namespace DuloGames.UI
                         anchoredPosition.y = this.m_Target.anchoredPosition.y;
                     }
 
-                    // If the target is constrained within it's canvas
                     if (this.m_ConstrainWithinCanvas && this.m_ConstrainInertia && this.m_CanvasRectTransform != null)
                     {
                         Vector3[] canvasCorners = new Vector3[4];
@@ -254,20 +230,17 @@ namespace DuloGames.UI
                         Vector3[] targetCorners = new Vector3[4];
                         this.m_Target.GetWorldCorners(targetCorners);
 
-                        // Outside of the screen to the left or right
                         if (targetCorners[0].x < canvasCorners[0].x || targetCorners[2].x > canvasCorners[2].x)
                         {
                             anchoredPosition.x = this.m_Target.anchoredPosition.x;
                         }
 
-                        // Outside of the screen to the top or bottom
                         if (targetCorners[3].y < canvasCorners[3].y || targetCorners[1].y > canvasCorners[1].y)
                         {
                             anchoredPosition.y = this.m_Target.anchoredPosition.y;
                         }
                     }
 
-                    // Apply the inertia
                     if (anchoredPosition != this.m_Target.anchoredPosition)
                     {
                         switch (this.m_InertiaRounding)
@@ -285,12 +258,6 @@ namespace DuloGames.UI
             }
         }
 
-        /// <summary>
-        /// Dampen the specified velocity.
-        /// </summary>
-        /// <param name="velocity">Velocity.</param>
-        /// <param name="strength">Strength.</param>
-        /// <param name="delta">Delta.</param>
         protected Vector3 Dampen(ref Vector2 velocity, float strength, float delta)
         {
             if (delta > 1f)
@@ -308,11 +275,6 @@ namespace DuloGames.UI
             return vTotal * 0.06f;
         }
 
-        /// <summary>
-        /// Clamps to the screen.
-        /// </summary>
-        /// <returns>The to screen.</returns>
-        /// <param name="position">Position.</param>
         protected Vector2 ClampToScreen(Vector2 position)
         {
             if (this.m_Canvas != null)
@@ -325,16 +287,9 @@ namespace DuloGames.UI
                     return new Vector2(clampedX, clampedY);
                 }
             }
-
-            // Default
             return position;
         }
 
-        /// <summary>
-        /// Clamps to the canvas.
-        /// </summary>
-        /// <returns>The to canvas.</returns>
-        /// <param name="position">Position.</param>
         protected Vector2 ClampToCanvas(Vector2 position)
         {
             if (this.m_CanvasRectTransform != null)
@@ -348,7 +303,6 @@ namespace DuloGames.UI
                 return new Vector2(clampedX, clampedY);
             }
 
-            // Default
             return position;
         }
     }
