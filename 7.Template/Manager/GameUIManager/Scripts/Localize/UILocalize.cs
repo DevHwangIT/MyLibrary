@@ -25,10 +25,75 @@ public class UILocalize : MonoBehaviour
     private static int _keyIndex = 0;
     private static Dictionary<string, int> _keyDictionary = new Dictionary<string, int>();
     private static List<Dictionary<string, string>> _localizeData;
+    private static Action OnChange;
     
     private void Awake()
     {
         _text = this.GetComponent<Text>();
+        OnChange += SetText;
+    }
+    
+    public static bool SetCountry(string Country)
+    {
+        LoadData();
+        if (_keyDictionary.TryGetValue(Country, out _keyIndex))
+        {
+            OnChange?.Invoke();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static bool SetCountry(TranslationCountries Country)
+    {
+        LoadData();
+        if (_keyDictionary.TryGetValue(Country.ToString(), out _keyIndex))
+        {
+            OnChange?.Invoke();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public static string Get(string key)
+    {
+        LoadData();
+        string value;
+        if (_localizeData[_keyIndex].TryGetValue(key, out value))
+        {
+            OnChange?.Invoke();
+            return value;
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public static string Get(TranslationCountries Country, string key)
+    {
+        LoadData();
+
+        SetCountry(Country);
+        string value;
+        if (_localizeData[_keyIndex].TryGetValue(key, out value))
+        {
+            OnChange?.Invoke();
+            return value;
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    private void SetText()
+    {
         _text.text = Get(_key);
     }
 
@@ -38,34 +103,7 @@ public class UILocalize : MonoBehaviour
             _localizeData = CSVRead("Assets/MyLibrary/7.Template/Manager/GameUIManager/Resources/Localize.csv");
     }
     
-    public static bool SetRegion(string region)
-    {
-        LoadData();
-        if (_keyDictionary.TryGetValue(region, out _keyIndex))
-            return true;
-        else
-            return false;
-    }
-    public static bool SetCountries(TranslationCountries region)
-    {
-        LoadData();
-        if (_keyDictionary.TryGetValue(region.ToString(), out _keyIndex))
-            return true;
-        else
-            return false;
-    }
-    
-    public static string Get(string key)
-    {
-        LoadData();
-        string value;
-        if (_localizeData[_keyIndex].TryGetValue(key, out value))
-            return value;
-        else
-            return "";
-    }
-
-    public static List<Dictionary<string, string>> CSVRead(string file)
+    private static List<Dictionary<string, string>> CSVRead(string file)
     {
         var localizeDictionaryList = new List<Dictionary<string, string>>();
         TextAsset data = AssetDatabase.LoadAssetAtPath<TextAsset>(file);
