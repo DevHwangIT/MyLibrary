@@ -8,31 +8,32 @@ using UnityEngine.EventSystems;
 [DisallowMultipleComponent, ExecuteInEditMode, RequireComponent(typeof(CanvasGroup))]
 public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPointerDownHandler
 {
-	protected static UIWindow m_FucusedWindow;
-	public static UIWindow FocusedWindow => m_FucusedWindow;
-	[SerializeField] private UIWindowID m_WindowId = UIWindowID.None;
-	protected bool m_IsFocused = false;
-	private CanvasGroup m_CanvasGroup;
+	protected static UIWindow _FucusedWindow;
+	public static UIWindow FocusedWindow => _FucusedWindow;
+	[SerializeField] private UIWindowID _WindowId = UIWindowID.None;
+	protected bool _IsFocused = false;
+	private CanvasGroup _CanvasGroup;
 
 	public UIWindowID ID
 	{
-		get { return this.m_WindowId; }
-		set { this.m_WindowId = value; }
+		get { return this._WindowId; }
+		set { this._WindowId = value; }
 	}
 
 	public bool IsVisible
 	{
-		get { return (this.m_CanvasGroup != null && this.m_CanvasGroup.alpha > 0f) ? true : false; }
+		get { return (this._CanvasGroup != null && this._CanvasGroup.alpha > 0f) ? true : false; }
 	}
 
 	public bool IsFocused
 	{
-		get { return this.m_IsFocused; }
+		get { return this._IsFocused; }
 	}
 
 	protected virtual void Awake()
 	{
-		this.m_CanvasGroup = this.gameObject.GetComponent<CanvasGroup>();
+		this._CanvasGroup = this.gameObject.GetComponent<CanvasGroup>();
+		this.transform.parent = UIWindowManager.Instance.transform;
 	}
 
 	protected virtual bool IsActive()
@@ -52,10 +53,10 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 
 	public virtual void Focus()
 	{
-		if (this.m_IsFocused)
+		if (this._IsFocused)
 			return;
 
-		this.m_IsFocused = true;
+		this._IsFocused = true;
 
 		UIWindow.OnBeforeFocusWindow(this);
 	}
@@ -65,7 +66,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 		if (!this.IsActive())
 			return;
 		
-		m_CanvasGroup.alpha = 1;
+		_CanvasGroup.alpha = 1;
 		this.Focus();
 	}
 
@@ -74,7 +75,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 		if (!this.IsActive())
 			return;
 
-		m_CanvasGroup.alpha = 0;
+		_CanvasGroup.alpha = 0;
 	}
 
 	#region Static Methods
@@ -108,10 +109,10 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 
 	protected static void OnBeforeFocusWindow(UIWindow window)
 	{
-		if (m_FucusedWindow != null)
-			m_FucusedWindow.m_IsFocused = false;
+		if (_FucusedWindow != null)
+			_FucusedWindow._IsFocused = false;
 
-		m_FucusedWindow = window;
+		_FucusedWindow = window;
 	}
 	#endregion
 }

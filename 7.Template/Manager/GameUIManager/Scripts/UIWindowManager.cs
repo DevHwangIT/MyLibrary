@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UIWindowManager : MonoBehaviour
 {
@@ -13,15 +15,14 @@ public class UIWindowManager : MonoBehaviour
 		{
 			if (_instance == null)
 			{
-				_instance = (UIWindowManager) FindObjectOfType(typeof(GameManager));
+				_instance = (UIWindowManager) FindObjectOfType(typeof(UIWindowManager));
 				if (_instance == null)
 				{
 					GameObject singletonObject = new GameObject($"{typeof(UIWindowManager)} (Singleton)");
+					singletonObject.AddComponent<RectTransform>();
 					_instance = singletonObject.AddComponent<UIWindowManager>();
-					DontDestroyOnLoad(singletonObject);
 				}
 			}
-
 			return _instance;
 		}
 	}
@@ -29,10 +30,19 @@ public class UIWindowManager : MonoBehaviour
 	#endregion
 
 	[SerializeField] private string m_EscapeInputName = "Cancel";
-
 	public string escapeInputName
 	{
 		get { return this.m_EscapeInputName; }
+	}
+
+	private void Awake()
+	{
+		SortingWindowUIOrder();
+	}
+
+	private void OnValidate()
+	{
+		SortingWindowUIOrder();
 	}
 
 	protected virtual void Update()
@@ -40,14 +50,45 @@ public class UIWindowManager : MonoBehaviour
 		if (Input.GetButtonDown(this.m_EscapeInputName))
 		{
 			List<UIWindow> windows = UIWindow.GetWindows();
+
+			UIWindow lastWindow = null;
 			foreach (UIWindow window in windows)
 			{
-				if (window.IsVisible)
+				if(!window.IsVisible)
+					continue;
+					
+				if (lastWindow == null)
+					lastWindow = window;
+				else
 				{
-					window.Hide();
-					return;
+					if (lastWindow.ID < window.ID)
+						lastWindow = window;
+					else
+					{
+						Debug.Log(window.ID.ToString());
+					}
 				}
 			}
+
+			if (lastWindow == null)
+			{
+				UIWindow.GetWindow(UIWindowID.GameMenu).Show();
+			}
+			else
+			{
+				if (lastWindow.IsVisible)
+					lastWindow.Hide();
+			}
+		}
+	}
+
+	private void SortingWindowUIOrder()
+	{
+		List<UIWindow> windows = UIWindow.GetWindows();
+		windows = windows.OrderBy(x => x.ID).ToList();
+		foreach (var window in windows)
+		{
+			window.transform.SetAsLastSibling();
 		}
 	}
 }
