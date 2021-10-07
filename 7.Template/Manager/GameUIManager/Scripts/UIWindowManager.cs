@@ -6,6 +6,7 @@ public class UIWindowManager : MonoBehaviour
 	#region Singleton
 
 	private static UIWindowManager _instance;
+
 	public static UIWindowManager Instance
 	{
 		get
@@ -20,6 +21,7 @@ public class UIWindowManager : MonoBehaviour
 					DontDestroyOnLoad(singletonObject);
 				}
 			}
+
 			return _instance;
 		}
 	}
@@ -27,15 +29,10 @@ public class UIWindowManager : MonoBehaviour
 	#endregion
 
 	[SerializeField] private string m_EscapeInputName = "Cancel";
+
 	public string escapeInputName
 	{
 		get { return this.m_EscapeInputName; }
-	}
-	
-	protected virtual void OnDestroy()
-	{
-		if (_instance.Equals(this))
-			_instance = null;
 	}
 
 	protected virtual void Update()
@@ -43,10 +40,13 @@ public class UIWindowManager : MonoBehaviour
 		if (Input.GetButtonDown(this.m_EscapeInputName))
 		{
 			List<UIWindow> windows = UIWindow.GetWindows();
-
 			foreach (UIWindow window in windows)
 			{
-				
+				if (window.IsVisible)
+				{
+					window.Hide();
+					return;
+				}
 			}
 		}
 	}

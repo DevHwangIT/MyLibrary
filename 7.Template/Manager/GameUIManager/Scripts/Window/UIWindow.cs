@@ -10,7 +10,6 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 {
 	protected static UIWindow m_FucusedWindow;
 	public static UIWindow FocusedWindow => m_FucusedWindow;
-
 	[SerializeField] private UIWindowID m_WindowId = UIWindowID.None;
 	protected bool m_IsFocused = false;
 	private CanvasGroup m_CanvasGroup;
@@ -24,11 +23,6 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 	public bool IsVisible
 	{
 		get { return (this.m_CanvasGroup != null && this.m_CanvasGroup.alpha > 0f) ? true : false; }
-	}
-
-	public bool IsOpen
-	{
-		get { return true; }
 	}
 
 	public bool IsFocused
@@ -68,25 +62,19 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 
 	public virtual void Show()
 	{
-		this.Show(false);
-	}
-
-	public virtual void Show(bool instant)
-	{
 		if (!this.IsActive())
 			return;
+		
+		m_CanvasGroup.alpha = 1;
 		this.Focus();
 	}
 
 	public virtual void Hide()
 	{
-		this.Hide(false);
-	}
-
-	public virtual void Hide(bool instant)
-	{
 		if (!this.IsActive())
 			return;
+
+		m_CanvasGroup.alpha = 0;
 	}
 
 	#region Static Methods
@@ -94,15 +82,13 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 	public static List<UIWindow> GetWindows()
 	{
 		List<UIWindow> windows = new List<UIWindow>();
-
-		UIWindow[] ws = Resources.FindObjectsOfTypeAll<UIWindow>();
+		UIWindow[] ws = FindObjectsOfType<UIWindow>();
 
 		foreach (UIWindow w in ws)
 		{
 			if (w.gameObject.activeInHierarchy)
 				windows.Add(w);
 		}
-
 		return windows;
 	}
 
@@ -111,7 +97,6 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 		foreach (UIWindow window in UIWindow.GetWindows())
 			if (window.ID == id)
 				return window;
-
 		return null;
 	}
 
@@ -128,6 +113,5 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 
 		m_FucusedWindow = window;
 	}
-
 	#endregion
 }
