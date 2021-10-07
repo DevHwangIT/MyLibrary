@@ -18,9 +18,17 @@ public class UIWindowManager : MonoBehaviour
 				_instance = (UIWindowManager) FindObjectOfType(typeof(UIWindowManager));
 				if (_instance == null)
 				{
-					GameObject singletonObject = new GameObject($"{typeof(UIWindowManager)} (Singleton)");
-					singletonObject.AddComponent<RectTransform>();
-					_instance = singletonObject.AddComponent<UIWindowManager>();
+					Canvas parentCanvas = FindObjectOfType<Canvas>();
+					if (parentCanvas == null)
+					{
+						GameObject canvasGameObj = new GameObject("Canvas (UI)");
+						parentCanvas = canvasGameObj.AddComponent<Canvas>();
+						parentCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+					}
+					GameObject parentObj = new GameObject("Window");
+					parentObj.transform.SetParent(parentCanvas.transform);
+					_instance = parentObj.AddComponent<UIWindowManager>();
+					_instance = parentCanvas.gameObject.AddComponent<UIWindowManager>();
 				}
 			}
 			return _instance;
@@ -50,7 +58,6 @@ public class UIWindowManager : MonoBehaviour
 		if (Input.GetButtonDown(this.m_EscapeInputName))
 		{
 			List<UIWindow> windows = UIWindow.GetWindows();
-
 			UIWindow lastWindow = null;
 			foreach (UIWindow window in windows)
 			{

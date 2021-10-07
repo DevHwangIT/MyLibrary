@@ -33,7 +33,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 	protected virtual void Awake()
 	{
 		this._CanvasGroup = this.gameObject.GetComponent<CanvasGroup>();
-		this.transform.parent = UIWindowManager.Instance.transform;
+		this.transform.SetParent(UIWindowManager.Instance.transform);
 	}
 
 	protected virtual bool IsActive()
