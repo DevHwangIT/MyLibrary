@@ -3,22 +3,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Recorder;
 using UnityEngine;
+using UnityEngine.Events;
 
+public enum keyEventType
+{
+    GetKeyDown,
+    GetKey,
+    GetKeyUp
+}
+
+[DisallowMultipleComponent, ExecuteInEditMode]
 public class InputEventManager : MonoBehaviour
 {
-    public enum keyEventType
+    #region Singleton
+    private static InputEventManager _instance;
+    public static InputEventManager Instance
     {
-        GetKeyDown,
-        GetKey,
-        GetKeyUp
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = (InputEventManager) FindObjectOfType(typeof(InputEventManager));
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject($"{typeof(InputEventManager)} (Singleton)");
+                    _instance = singletonObject.AddComponent<InputEventManager>();
+                    DontDestroyOnLoad(singletonObject);
+                }
+            }
+            return _instance;
+        }
     }
+    #endregion
     
     private int[] keyCodeArray;
-    private static Dictionary<KeyCode, Action> keyDownEvent = new Dictionary<KeyCode, Action>();
-    private static Dictionary<KeyCode, Action> keyEvent = new Dictionary<KeyCode, Action>();
-    private static Dictionary<KeyCode, Action> keyUpEvent = new Dictionary<KeyCode, Action>();
+    private static Dictionary<KeyCode, UnityEvent> keyDownEvent = new Dictionary<KeyCode, UnityEvent>();
+    private static Dictionary<KeyCode, UnityEvent> keyEvent = new Dictionary<KeyCode, UnityEvent>();
+    private static Dictionary<KeyCode, UnityEvent> keyUpEvent = new Dictionary<KeyCode, UnityEvent>();
 
-    private static Dictionary<KeyCode, Action> SelectEventTypeDictionary(keyEventType eventType)
+    private static Dictionary<KeyCode, UnityEvent> SelectEventTypeDictionary(keyEventType eventType)
     {
         switch (eventType)
         {
@@ -29,25 +52,25 @@ public class InputEventManager : MonoBehaviour
         }
     }
     
-    public static void Add(KeyCode key, Action method, keyEventType eventType = keyEventType.GetKey)
+    public static void Add(KeyCode key, UnityEvent method, keyEventType eventType = keyEventType.GetKey)
     {
-        Dictionary<KeyCode, Action> eventDictionary = SelectEventTypeDictionary(eventType);
+        Dictionary<KeyCode, UnityEvent> eventDictionary = SelectEventTypeDictionary(eventType);
         if (eventDictionary.ContainsKey(key))
-            eventDictionary[key] += method;
+            eventDictionary[key].AddListener(() => { method.Invoke(); });
         else
             eventDictionary.Add(key, method);
     }
 
-    public static void Remove(KeyCode key, Action method, keyEventType eventType = keyEventType.GetKey)
+    public static void Remove(KeyCode key, UnityEvent method, keyEventType eventType = keyEventType.GetKey)
     {
-        Dictionary<KeyCode, Action> eventDictionary = SelectEventTypeDictionary(eventType);
+        Dictionary<KeyCode, UnityEvent> eventDictionary = SelectEventTypeDictionary(eventType);
         if (eventDictionary.ContainsKey(key))
-            eventDictionary[key] -= method;
+            eventDictionary[key].RemoveListener(() => { method.Invoke(); });
     }
 
     public static void Clear(KeyCode key, keyEventType eventType = keyEventType.GetKey)
     {
-        Dictionary<KeyCode, Action> eventDictionary = SelectEventTypeDictionary(eventType);
+        Dictionary<KeyCode, UnityEvent> eventDictionary = SelectEventTypeDictionary(eventType);
         if (eventDictionary.ContainsKey(key))
             eventDictionary[key] = null;
     }

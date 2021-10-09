@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+[DisallowMultipleComponent]
 public class UIWindowManager : MonoBehaviour
 {
 	#region Singleton

@@ -65,7 +65,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 	{
 		if (!this.IsActive())
 			return;
-		
+
 		_CanvasGroup.alpha = 1;
 		this.Focus();
 	}
@@ -90,6 +90,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 			if (w.gameObject.activeInHierarchy)
 				windows.Add(w);
 		}
+
 		return windows;
 	}
 
@@ -114,5 +115,6 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 
 		_FucusedWindow = window;
 	}
+
 	#endregion
 }
