@@ -7,13 +7,13 @@ using UnityEngine.Events;
 public class PlayerInput : MonoBehaviour
 {
     [System.Serializable]
-    public struct inputEvent
+    public struct InputEvent
     {
         public KeyCode _keyCode;
         public keyEventType _eventType;
         public UnityEvent _event;
     }
-    [SerializeField] private List<inputEvent> _inputEvents;
+    [SerializeField] private List<InputEvent> _inputEvents;
     private InputEventManager inputEventManager;
     
     private void Awake()
