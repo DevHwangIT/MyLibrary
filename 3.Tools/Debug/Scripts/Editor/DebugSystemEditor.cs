@@ -11,7 +11,13 @@ namespace MyLibrary.Tools
 		[MenuItem("MyLibrary/Tools/Debug/Create Debug Instance")]
 		public static void CreateInstanceBinder()
 		{
-			DebugSystem initInstance = DebugSystem.Instance;
+			DebugSystem _instance = (DebugSystem) FindObjectOfType(typeof(DebugSystem));
+			if (_instance == null)
+			{
+				GameObject singletonObject = new GameObject($"Debug System (Singleton)");
+				_instance = singletonObject.AddComponent<DebugSystem>();
+			}
+			_instance.GetComponent<DebugSystemGUI>().Initialize();
 		}
 
 		public class DebugSystemModificationProcessor : UnityEditor.AssetModificationProcessor

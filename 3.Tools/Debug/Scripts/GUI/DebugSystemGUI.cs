@@ -42,7 +42,7 @@ namespace MyLibrary.Tools
         private string _inputPw = "";
 
         #region InitializeFunc
-        void Initialize()
+        public void Initialize()
         {
             if (_cheatGUIViewer == null)
             {
@@ -50,6 +50,7 @@ namespace MyLibrary.Tools
                     _cheatGUIViewer = this.GetComponent<DebugSystemGUICheatViewer>();
                 else
                     _cheatGUIViewer = gameObject.AddComponent<DebugSystemGUICheatViewer>();
+                _cheatGUIViewer.hideFlags = HideFlags.HideInInspector;
             }
 
             if (_logGUIViewer == null)
@@ -58,6 +59,7 @@ namespace MyLibrary.Tools
                     _logGUIViewer = this.GetComponent<DebugSystemGUILogViewer>();
                 else
                     _logGUIViewer = gameObject.AddComponent<DebugSystemGUILogViewer>();
+                _logGUIViewer.hideFlags = HideFlags.HideInInspector;
             }
             
             if (_systemGUIViewer == null)
@@ -66,6 +68,7 @@ namespace MyLibrary.Tools
                     _systemGUIViewer = this.GetComponent<DebugSystemGUISystemViewer>();
                 else
                     _systemGUIViewer = gameObject.AddComponent<DebugSystemGUISystemViewer>();
+                _systemGUIViewer.hideFlags = HideFlags.HideInInspector;
             }
 
             if (_debugSystemData == null)

@@ -12,11 +12,6 @@ namespace MyLibrary.Tools
     {
         private float deltaTime = 0.0f;
 
-        private void Awake()
-        {
-            hideFlags = HideFlags.HideInInspector;
-        }
-
         void Update()
         {
             deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;

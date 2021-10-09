@@ -12,11 +12,6 @@ namespace MyLibrary.Tools
     {
         Vector2 scrollPosition = new Vector2(0, 0);
 
-        private void Awake()
-        {
-            hideFlags = HideFlags.HideInInspector;
-        }
-
         public void OnDrawGUI(DebugSystemDataScriptable systemData, DebugSystemGUIDataScriptable guiData)
         {
             DebugEventHandler handler = DebugSystem.Instance.GetEventHandler;
