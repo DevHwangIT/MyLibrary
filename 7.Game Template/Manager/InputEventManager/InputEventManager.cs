@@ -68,6 +68,12 @@ public class InputEventManager : MonoBehaviour
             eventDictionary[key].RemoveListener(() => { method.Invoke(); });
     }
 
+    public static void ChangeKey(KeyCode preKey, KeyCode key, UnityEvent method, keyEventType eventType = keyEventType.GetKey)
+    {
+        Remove(preKey, method, eventType);
+        Add(key, method, eventType);
+    }
+
     public static void Clear(KeyCode key, keyEventType eventType = keyEventType.GetKey)
     {
         Dictionary<KeyCode, UnityEvent> eventDictionary = SelectEventTypeDictionary(eventType);
