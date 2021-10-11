@@ -53,7 +53,7 @@ namespace MyLibrary.Tools
 
             if (EditorSceneManager.sceneCountInBuildSettings != 0)
             {
-                EditorApplication.SaveCurrentSceneIfUserWantsTo();
+                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
                 EditorSceneManager.OpenScene(SceneUtility.GetScenePathByBuildIndex(0));
                 EditorApplication.isPlaying = true;
             }
