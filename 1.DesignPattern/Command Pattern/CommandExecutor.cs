@@ -32,7 +32,6 @@ namespace MyLibrary.DesignPattern
         private static Stack<ICommand> completeCommands = new Stack<ICommand>();
         private static Queue<ICommand> runningCommands = new Queue<ICommand>();
         private static bool isUndo = false;
-        private const int MaxCommandLine = 50;
         
         private void Awake()
         {
