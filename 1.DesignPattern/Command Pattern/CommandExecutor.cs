@@ -49,10 +49,13 @@ namespace MyLibrary.DesignPattern
                     completeCommands.Push(command);
                 }
 
-                if (isUndo)
+                if (isUndo) 
                 {
-                    ICommand undoCommand = completeCommands.Pop();
-                    yield return StartCoroutine(undoCommand.Undo());
+                    if (completeCommands.Count > 0)
+                    {
+                        ICommand undoCommand = completeCommands.Pop();
+                        yield return StartCoroutine(undoCommand.Undo());
+                    }
                     isUndo = false;
                 }
                 yield return null;
