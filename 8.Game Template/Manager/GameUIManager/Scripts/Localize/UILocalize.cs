@@ -100,7 +100,7 @@ public class UILocalize : MonoBehaviour
     private static void LoadData()
     {
         if (_localizeData == null) 
-            _localizeData = CSVRead("Assets/MyLibrary/7.Template/Manager/GameUIManager/Resources/Localize.csv");
+            _localizeData = CSVRead("Assets/MyLibrary/8.Game Template/Manager/GameUIManager/Resources/Localize.csv");
     }
     
     private static List<Dictionary<string, string>> CSVRead(string file)
