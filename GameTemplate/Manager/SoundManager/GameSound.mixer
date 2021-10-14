@@ -114,7 +114,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BackGround
+  m_Name: BGM
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 60d7a46bb398db54b9f29bd518319bdf
   m_Children: []
@@ -147,7 +147,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effect
+  m_Name: SFX
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: bfa1f09bb5d12d84eb5e7f878a8096bc
   m_Children: []

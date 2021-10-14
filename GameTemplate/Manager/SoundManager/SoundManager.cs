@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyLibrary.DesignPattern;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
+[RequireComponent(typeof(AudioClipData))]
 public class SoundManager : MonoBehaviour
 {
     #region Singleton
@@ -32,13 +34,7 @@ public class SoundManager : MonoBehaviour
 
     #endregion
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
-
     private AudioMixer audioMixer;
-
     private AudioMixer GetMixer
     {
         get
@@ -47,7 +43,7 @@ public class SoundManager : MonoBehaviour
             {
                 audioMixer =
                     (AudioMixer) AssetDatabase.LoadAssetAtPath(
-                        "Assets/MyLibrary/6.Manager/SoundManager/GameSound.mixer", typeof(AudioMixer));
+                        "Assets/MyLibrary/GameTemplate/Manager/SoundManager/GameSound.mixer", typeof(AudioMixer));
                 if (audioMixer == null)
                 {
                     Debug.LogError("Null Exception!! - Please Check the AudioMixer Path");
@@ -100,7 +96,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public float EffectVolum
+    public float SFXVolum
     {
         set
         {
@@ -137,4 +133,72 @@ public class SoundManager : MonoBehaviour
             return volum;
         }
     }
+
+    private AudioClipData _clipData;
+    private AudioSource _bgmAudioSource;
+    
+    private void Awake()
+    {
+        GameObject audioClipDataParent = new GameObject();
+        audioClipDataParent.transform.parent = this.transform;
+        audioClipDataParent.gameObject.name = "Sound Controller";
+        
+        GameObject BGMAudioSource = new GameObject();
+        BGMAudioSource.transform.parent = audioClipDataParent.transform;
+        BGMAudioSource.gameObject.name = "BGM";
+        _bgmAudioSource = BGMAudioSource.AddComponent<AudioSource>();
+        _bgmAudioSource.outputAudioMixerGroup = GetMixer.FindMatchingGroups("Master")[1];
+
+        _bgmAudioSource.playOnAwake = true;
+    }
+
+    public void PlayBGM(string clipName)
+    {
+        AudioClip bgmClip = _clipData.GetBGMClip(clipName);
+        if (bgmClip != null)
+        {
+            _bgmAudioSource.Stop();
+            _bgmAudioSource.clip = bgmClip;
+            _bgmAudioSource.Play();
+        }
+    }
+
+    public void PlayVFX(string clipName)
+    {
+        AudioClip sfxClip = _clipData.GetSfxClip(clipName);
+        if (sfxClip != null)
+        {
+            //ObjectPool
+        }
+    }
+    
+    // TODO :생각해보자 어차피 파티클 자체에도 소리가 프리팹안에 붙어있을텐데 이게 필요한가?.. 그리고 사운드에 2d인지 3d인지 옵션도..?
+    
+    public void PlayVFX(string clipName, Vector3 Position)
+    {
+        AudioClip sfxClip = _clipData.GetSfxClip(clipName);
+        if (sfxClip != null)
+        {
+            //ObjectPool
+        }
+    }
+    
+    public void PlayEnvironment(string clipName)
+    {
+        AudioClip environmentClip = _clipData.GetEnvironmentClip(clipName);
+        if (environmentClip != null)
+        {
+            //ObjectPool
+        }
+    }
+    
+    public void PlayEnvironment(string clipName, Vector3 Position)
+    {
+        AudioClip sfxClip = _clipData.GetSfxClip(clipName);
+        if (sfxClip != null)
+        {
+            //ObjectPool
+        }
+    }
+
 }

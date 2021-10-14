@@ -12,7 +12,7 @@ public enum keyEventType
     GetKeyUp
 }
 
-[DisallowMultipleComponent, ExecuteInEditMode]
+[DisallowMultipleComponent, ExecuteInEditMode, RequireComponent(typeof(PlayerInput))]
 public class InputEventManager : MonoBehaviour
 {
     #region Singleton

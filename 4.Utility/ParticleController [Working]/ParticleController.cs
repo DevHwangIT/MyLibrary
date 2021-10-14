@@ -7,6 +7,8 @@ namespace MyLibrary.Utility
 {
 	public class ParticleController : MonoBehaviour
 	{
+		public AnimationCurve Curve;
+		
 		public HideType HideType = HideType.Destroy;
 		public DestroyType DestroyType = DestroyType.Distance;
 		public bool IsPaused = true;

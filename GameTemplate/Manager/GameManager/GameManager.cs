@@ -31,14 +31,7 @@ public partial class GameManager : MonoBehaviour
     }
 
     #endregion
-
-    #region Value
-
-    public static string GetGameVersion()
-    {
-        return Application.version;
-    }
-
+    
     private GamePlayState _gameStates;
     private GamePlayResult _inGameState;
 
@@ -105,11 +98,14 @@ public partial class GameManager : MonoBehaviour
             }
         }
     }
-
+    
+    public static string GetGameVersion()
+    {
+        return Application.version;
+    }
+    
     private GameObject[] GetAllObjectsInScene()
     {
         return FindObjectsOfType<GameObject>();
     }
-
-    #endregion
 }
