@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7256940780148119457}
   - component: {fileID: 6087984294502719537}
   - component: {fileID: 7190966776833595258}
-  - component: {fileID: 9179586224450356779}
   m_Layer: 0
   m_Name: System Managers [SingleTon]
   m_TagString: Untagged
@@ -30,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7757411340775676003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 374.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,18 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88bdb7c1bbc9a7146b16ae98856806b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9179586224450356779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7757411340775676003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05d1300f219c72e4ba4ea8b503bf14d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmSounds: []
-  sfxSounds: []
-  environmentSounds: []
+  _bgmClipData: {fileID: 11400000, guid: 2c9440472418c5a40b2672bcf82c050e, type: 2}
+  _sfxClipData: {fileID: 11400000, guid: 275e3b429efe9f7499a48c362b5f1721, type: 2}

@@ -20,6 +20,8 @@ public class UISoundPlay : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (_source.isPlaying)
+            _source.Stop();
         _source.Play();
     }
 }

@@ -13,47 +13,18 @@ public struct Sound
     public AudioClip GetClip => _clip;
 }
 
-[DisallowMultipleComponent]
-public class AudioClipData : MonoBehaviour
+[CreateAssetMenu(fileName = "AudioClipData", menuName = "ScriptableObjects/AudioClipData", order = 11)]
+public class AudioClipData : ScriptableObject
 {
-    [Header("BGM")]
     [SetElementTitle("_name")]
-    [SerializeField] private List<Sound> bgmSounds = new List<Sound>();
+    [SerializeField] private List<Sound> Sounds = new List<Sound>();
     
-    [Header("VFX[Visual Effects]")]
-    [SetElementTitle("_name")]
-    [SerializeField] private List<Sound> sfxSounds = new List<Sound>();
-
-    [Header("Environment")]
-    [SetElementTitle("_name")]
-    [SerializeField] private List<Sound> environmentSounds = new List<Sound>();
-    
-    public AudioClip GetBGMClip(string clipName)
+    public AudioClip GetClip(string clipName)
     {
-        foreach (var bgmSound in bgmSounds)
+        foreach (var Sound in Sounds)
         {
-            if (bgmSound.GetName.Equals(clipName))
-                return bgmSound.GetClip;
-        }
-        return null;
-    }
-    
-    public AudioClip GetSfxClip(string clipName)
-    {
-        foreach (var sfxSound in sfxSounds)
-        {
-            if (sfxSound.GetName.Equals(clipName))
-                return sfxSound.GetClip;
-        }
-        return null;
-    }
-        
-    public AudioClip GetEnvironmentClip(string clipName)
-    {
-        foreach (var environmentSound in environmentSounds)
-        {
-            if (environmentSound.GetName.Equals(clipName))
-                return environmentSound.GetClip;
+            if (Sound.GetName.Equals(clipName))
+                return Sound.GetClip;
         }
         return null;
     }

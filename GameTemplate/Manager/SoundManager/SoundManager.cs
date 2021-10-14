@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[RequireComponent(typeof(AudioClipData))]
 public class SoundManager : MonoBehaviour
 {
     #region Singleton
@@ -35,6 +34,7 @@ public class SoundManager : MonoBehaviour
     #endregion
 
     private AudioMixer audioMixer;
+
     private AudioMixer GetMixer
     {
         get
@@ -134,15 +134,16 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private AudioClipData _clipData;
+    [SerializeField] private AudioClipData _bgmClipData;
+    [SerializeField] private AudioClipData _sfxClipData;
     private AudioSource _bgmAudioSource;
-    
+
     private void Awake()
     {
         GameObject audioClipDataParent = new GameObject();
         audioClipDataParent.transform.parent = this.transform;
         audioClipDataParent.gameObject.name = "Sound Controller";
-        
+
         GameObject BGMAudioSource = new GameObject();
         BGMAudioSource.transform.parent = audioClipDataParent.transform;
         BGMAudioSource.gameObject.name = "BGM";
@@ -152,9 +153,9 @@ public class SoundManager : MonoBehaviour
         _bgmAudioSource.playOnAwake = true;
     }
 
-    public void PlayBGM(string clipName)
+    public void PlayBGMSound(string clipName)
     {
-        AudioClip bgmClip = _clipData.GetBGMClip(clipName);
+        AudioClip bgmClip = _bgmClipData.GetClip(clipName);
         if (bgmClip != null)
         {
             _bgmAudioSource.Stop();
@@ -163,42 +164,24 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayVFX(string clipName)
-    {
-        AudioClip sfxClip = _clipData.GetSfxClip(clipName);
-        if (sfxClip != null)
-        {
-            //ObjectPool
-        }
-    }
-    
-    // TODO :생각해보자 어차피 파티클 자체에도 소리가 프리팹안에 붙어있을텐데 이게 필요한가?.. 그리고 사운드에 2d인지 3d인지 옵션도..?
-    
-    public void PlayVFX(string clipName, Vector3 Position)
-    {
-        AudioClip sfxClip = _clipData.GetSfxClip(clipName);
-        if (sfxClip != null)
-        {
-            //ObjectPool
-        }
-    }
-    
-    public void PlayEnvironment(string clipName)
-    {
-        AudioClip environmentClip = _clipData.GetEnvironmentClip(clipName);
-        if (environmentClip != null)
-        {
-            //ObjectPool
-        }
-    }
-    
-    public void PlayEnvironment(string clipName, Vector3 Position)
-    {
-        AudioClip sfxClip = _clipData.GetSfxClip(clipName);
-        if (sfxClip != null)
-        {
-            //ObjectPool
-        }
-    }
 
+    // TODO :생각해보자 어차피 파티클 자체에도 소리가 프리팹안에 붙어있을텐데 이게 필요한가?.. 그리고 사운드에 2d인지 3d인지 옵션도..?
+
+    public void PlayVFXSound(string clipName)
+    {
+        AudioClip sfxObj = _sfxClipData.GetClip(clipName);
+        if (sfxObj != null)
+        {
+            //ObjectPool
+        }
+    }
+    
+    public void PlayVFXSound(string clipName, Vector3 Position)
+    {
+        AudioClip sfxObj = _sfxClipData.GetClip(clipName);
+        if (sfxObj != null)
+        {
+            //ObjectPool
+        }
+    }
 }
