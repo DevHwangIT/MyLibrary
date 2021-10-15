@@ -39,7 +39,7 @@ public class DebugSystemImagesResources
 
 #endregion
 
-[CreateAssetMenu(fileName = "DebugSystemGUIData", menuName = "ScriptableObjects/DebugSystemGUIData", order = 2)]
+[CreateAssetMenu(fileName = "DebugSystemGUIData", menuName = "ScriptableObjects/MyLibrary/Tools/Debug/DebugSystemGUIData", order = 2)]
 public class DebugSystemGUIDataScriptable : ScriptableObject
 {
     [Header("GUI Skin")]

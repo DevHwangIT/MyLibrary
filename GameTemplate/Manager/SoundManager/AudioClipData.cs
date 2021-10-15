@@ -13,7 +13,7 @@ public struct Sound
     public AudioClip GetClip => _clip;
 }
 
-[CreateAssetMenu(fileName = "AudioClipData", menuName = "ScriptableObjects/AudioClipData", order = 11)]
+[CreateAssetMenu(fileName = "AudioClipData", menuName = "ScriptableObjects/MyLibrary/Manager/AudioClipData", order = 11)]
 public class AudioClipData : ScriptableObject
 {
     [SetElementTitle("_name")]

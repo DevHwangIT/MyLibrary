@@ -55,24 +55,18 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private const float MinimumVolum = -40f;
-    private const float MaximumVolum = 0f;
-
     public float MasterVolum
     {
         set
         {
             float volum = value;
-            volum -= MinimumVolum;
-            volum = Mathf.Clamp(volum, MinimumVolum, MaximumVolum);
-            GetMixer.SetFloat("Master", volum);
+            volum = Mathf.Clamp(volum, 0, 1);
+            GetMixer.SetFloat("Master", Mathf.Log10(volum) * 20);
         }
         get
         {
             float volum = 0f;
             GetMixer.GetFloat("Master", out volum);
-            volum += MinimumVolum;
-            volum = Mathf.Clamp(volum, 0, 100f);
             return volum;
         }
     }
@@ -82,16 +76,13 @@ public class SoundManager : MonoBehaviour
         set
         {
             float volum = value;
-            volum -= MinimumVolum;
-            volum = Mathf.Clamp(volum, MinimumVolum, MaximumVolum);
-            GetMixer.SetFloat("BackGround", volum);
+            volum = Mathf.Clamp(volum, 0, 1);
+            GetMixer.SetFloat("BGM", Mathf.Log10(volum) * 20);
         }
         get
         {
             float volum = 0f;
-            GetMixer.GetFloat("BackGround", out volum);
-            volum += MinimumVolum;
-            volum = Mathf.Clamp(volum, 0, 100f);
+            GetMixer.GetFloat("BGM", out volum);
             return volum;
         }
     }
@@ -101,35 +92,30 @@ public class SoundManager : MonoBehaviour
         set
         {
             float volum = value;
-            volum -= MinimumVolum;
-            volum = Mathf.Clamp(volum, MinimumVolum, MaximumVolum);
-            GetMixer.SetFloat("Effect", volum);
+            volum = Mathf.Clamp(volum, 0, 1);
+            GetMixer.SetFloat("SFX", Mathf.Log10(volum) * 20);
         }
         get
         {
             float volum = 0f;
-            GetMixer.GetFloat("Effect", out volum);
-            volum += MinimumVolum;
-            volum = Mathf.Clamp(volum, 0, 100f);
+            GetMixer.GetFloat("SFX", out volum);
             return volum;
         }
     }
 
-    public float EnvironmentVolum
+    public float UIVolum
     {
+        
         set
         {
             float volum = value;
-            volum -= MinimumVolum;
-            volum = Mathf.Clamp(volum, MinimumVolum, MaximumVolum);
-            GetMixer.SetFloat("Environment", volum);
+            volum = Mathf.Clamp(volum, 0, 1);
+            GetMixer.SetFloat("UI", Mathf.Log10(volum) * 20);
         }
         get
         {
             float volum = 0f;
-            GetMixer.GetFloat("Environment", out volum);
-            volum += MinimumVolum;
-            volum = Mathf.Clamp(volum, 0, 100f);
+            GetMixer.GetFloat("UI", out volum);
             return volum;
         }
     }
@@ -163,9 +149,6 @@ public class SoundManager : MonoBehaviour
             _bgmAudioSource.Play();
         }
     }
-
-
-    // TODO :생각해보자 어차피 파티클 자체에도 소리가 프리팹안에 붙어있을텐데 이게 필요한가?.. 그리고 사운드에 2d인지 3d인지 옵션도..?
 
     public void PlayVFXSound(string clipName)
     {

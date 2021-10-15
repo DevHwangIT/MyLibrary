@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "DebugSystemData", menuName = "ScriptableObjects/DebugSystemData", order = 1)]
+[CreateAssetMenu(fileName = "DebugSystemData", menuName = "ScriptableObjects/MyLibrary/Tools/Debug/DebugSystemData", order = 1)]
 public class DebugSystemDataScriptable : ScriptableObject
 {
     [Header("Value")]
