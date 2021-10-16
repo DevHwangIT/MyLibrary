@@ -13,18 +13,16 @@ namespace MyLibrary.Utility
     {
         protected string _name = "Camera Effect";
         public string ClassName => _name;
-            
+        
+        public Coroutine CamCoroutine;
+        public bool isPlaying => CamCoroutine != null ? true : false;
+        
         protected int duration;
         protected Vector3 direction;
 
         protected CameraEffect(string name) { _name = name;}
 
-        public virtual void DrawInspectorGUI()
-        {
-            duration = EditorGUILayout.IntField("Duration : ",duration);
-            direction = EditorGUILayout.Vector3Field("Direction : ",direction);
-        }
-        
-        public abstract void Action(Transform cam);
+        public abstract void DrawInspectorGUI();
+        public abstract IEnumerator Action(Transform cam);
     }
 }

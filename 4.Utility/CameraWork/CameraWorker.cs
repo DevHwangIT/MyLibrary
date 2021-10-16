@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using JetBrains.Annotations;
 using MyLibrary.Utility;
 using UnityEngine;
@@ -18,6 +19,24 @@ namespace MyLibrary.Utility
     public class CameraWorker : MonoBehaviour
     {
         public CameraWorkType cameraType;
+        public Transform GetCamera
+        {
+            get
+            {
+                switch (cameraType)
+                {
+                    case CameraWorkType.Cinemachine_Camera:
+                        CinemachineBrain camBrain = FindObjectOfType<CinemachineBrain>();
+                        if (camBrain.ActiveVirtualCamera as CinemachineVirtualCamera)
+                            return (camBrain.ActiveVirtualCamera as CinemachineVirtualCamera).transform;
+                        return null;
+                    
+                    case CameraWorkType.Unity_Camera:
+                        return Camera.main.transform;
+                }
+                return null;
+            }
+        }
         
         [Space(1)]
         public CameraEffect[] CameraEffects =
@@ -64,11 +83,54 @@ namespace MyLibrary.Utility
             return null;
         }
 
-        public void Active<T>() where T : CameraEffect
+        public void Action<T>() where T : CameraEffect
         {
-            //임시
             if (GetCameraEffect<T>() != null)
-                GetCameraEffect<T>().Action(null);
+            {
+                T t = GetCameraEffect<T>();
+                t.CamCoroutine = StartCoroutine(t.Action(GetCamera));
+            }
+        }
+
+        public void Action(CameraEffect type)
+        {
+            foreach (var effect in CameraEffects)
+            {
+                if (effect.GetType() == type.GetType())
+                {
+                    effect.CamCoroutine = StartCoroutine(effect.Action(GetCamera));
+                    break;
+                }
+            }
+        }
+        
+        public void Stop<T>() where T : CameraEffect
+        {
+            if (GetCameraEffect<T>() != null)
+            {
+                T t = GetCameraEffect<T>();
+                if (t.isPlaying)
+                {
+                    StopCoroutine(t.CamCoroutine);
+                    t.CamCoroutine = null;
+                }
+            }
+        }
+        
+        public void Stop(CameraEffect type)
+        {
+            foreach (var effect in CameraEffects)
+            {
+                if (effect.GetType() == type.GetType())
+                {
+                    if (effect.isPlaying)
+                    {
+                        StopCoroutine(effect.CamCoroutine);
+                        effect.CamCoroutine = null;
+                        break;
+                    }
+                }
+            }
         }
     }
 }

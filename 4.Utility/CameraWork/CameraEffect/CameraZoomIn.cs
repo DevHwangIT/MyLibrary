@@ -18,13 +18,31 @@ namespace MyLibrary.Utility
         
         public override void DrawInspectorGUI()
         {
-            base.DrawInspectorGUI();
+            duration = EditorGUILayout.IntField("Duration : ",duration);
+            direction = EditorGUILayout.Vector3Field("Direction : ",direction);
             _curve = EditorGUILayout.CurveField("Zoom Curve : ",_curve);
         }
 
-        public override void Action(Transform cam)
+        public override IEnumerator Action(Transform cam)
         {
-            Debug.Log("Test Zoomin");
+            float duration = 0f;
+            while (duration < 5f)
+            {
+                cam.Translate(Vector3.up * 10 * Time.fixedDeltaTime);
+                duration += Time.fixedDeltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(1f);
+            duration = 0f;
+            while (duration < 5f)
+            {
+                cam.Translate(Vector3.down * 10 * Time.fixedDeltaTime);
+                duration += Time.fixedDeltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(1f);
+            Debug.Log("코루틴 종료 됨");
+            CamCoroutine = null;
         }
     }
 }
