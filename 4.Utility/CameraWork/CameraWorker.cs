@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -16,11 +17,11 @@ namespace MyLibrary.Utility
         Cinemachine_Camera
     }
 
-    [DisallowMultipleComponent]
+    [ExecuteInEditMode]
     public class CameraWorker : MonoBehaviour
     {
         public CameraWorkType cameraType;
-
+        public CameraEffectsData EffectsData;
         public Transform GetCamera
         {
             get
@@ -47,27 +48,9 @@ namespace MyLibrary.Utility
             }
         }
 
-        public CameraEffect[] cameraEffects = 
-        {
-            new CameraZoomIn("Zoom-In"),
-            new CameraShake("Shake")
-        };
-        
-        public int CameraEffectLength { get { return cameraEffects.Length; } }
-        public bool CameraEffectGetIndex(int index, out CameraEffect effect)
-        {
-            if (cameraEffects.Length > index)
-            {
-                effect = cameraEffects[index];
-                return true;
-            }
-            effect = null;
-            return false;
-        }
-        
         private void Awake()
         {
-            if (Camera.main == null || this.gameObject != Camera.main.gameObject) 
+            if (Camera.main == null || this.gameObject != Camera.main.gameObject)
                 Destroy(this);
         }
 
@@ -93,42 +76,33 @@ namespace MyLibrary.Utility
 #endif
         }
         
-        public T GetCameraEffect<T>() where T : CameraEffect
-        {
-            foreach (var effect in cameraEffects)
-            {
-                if (effect.GetType() == typeof(T))
-                    return (T) effect;
-            }
-            return null;
-        }
-
         public void Action<T>() where T : CameraEffect
         {
-            if (GetCameraEffect<T>() != null)
+            CameraEffect effect = EffectsData.GetCameraEffect<T>();
+            if (effect != null)
             {
-                T t = GetCameraEffect<T>();
-                t.CamCoroutine = StartCoroutine(t.Action(GetCamera));
+                if (effect.isPlaying)
+                    Stop<T>();
+                effect.CamCoroutine = StartCoroutine(effect.Action(GetCamera));
             }
         }
 
         public void Action(CameraEffect type)
         {
-            foreach (var effect in cameraEffects)
+            CameraEffect effect = EffectsData.GetCameraEffect(type);
+            if (effect != null)
             {
-                if (effect.GetType() == type.GetType())
-                {
-                    effect.CamCoroutine = StartCoroutine(effect.Action(GetCamera));
-                    break;
-                }
+                if (effect.isPlaying)
+                    Stop(type);
+                effect.CamCoroutine = StartCoroutine(effect.Action(GetCamera));
             }
         }
-        
+
         public void Stop<T>() where T : CameraEffect
         {
-            if (GetCameraEffect<T>() != null)
+            CameraEffect effect = EffectsData.GetCameraEffect<T>();
+            if (effect != null)
             {
-                T effect = GetCameraEffect<T>();
                 if (effect.isPlaying)
                 {
                     StopCoroutine(effect.CamCoroutine);
@@ -137,20 +111,17 @@ namespace MyLibrary.Utility
                 }
             }
         }
-        
+
         public void Stop(CameraEffect type)
         {
-            foreach (var effect in cameraEffects)
+            CameraEffect effect = EffectsData.GetCameraEffect(type);
+            if (effect != null)
             {
-                if (effect.GetType() == type.GetType())
+                if (effect.isPlaying)
                 {
-                    if (effect.isPlaying)
-                    {
-                        StopCoroutine(effect.CamCoroutine);
-                        effect.CamCoroutine = null;
-                        effect.Stop(GetCamera);
-                        return;
-                    }
+                    StopCoroutine(effect.CamCoroutine);
+                    effect.CamCoroutine = null;
+                    effect.Stop(GetCamera);
                 }
             }
         }

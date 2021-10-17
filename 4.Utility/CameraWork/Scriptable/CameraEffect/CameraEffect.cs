@@ -15,10 +15,10 @@ namespace MyLibrary.Utility
         public string ClassName => _name;
         public Coroutine CamCoroutine;
         public bool isPlaying => CamCoroutine != null ? true : false;
-        public float duration { get; set; }
+        public float duration;
         protected CameraEffect(string name) { _name = name;}
 
-        public abstract void DrawInspectorGUI(SerializedObject serializedObject);
+        public abstract void DrawInspectorGUI();
         public abstract IEnumerator Action(Transform cam);
         public abstract void Stop(Transform cam);
     }

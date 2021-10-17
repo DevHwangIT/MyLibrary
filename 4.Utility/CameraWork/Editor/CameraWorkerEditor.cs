@@ -20,7 +20,6 @@ namespace MyLibrary.Utility
 
         public override void OnInspectorGUI()
         {
-            
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.Space(1f);
             EditorGUILayout.LabelField("Camera Type : ");
@@ -28,38 +27,32 @@ namespace MyLibrary.Utility
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(5f);
 
-            for (int index = 0; index < camWorker.CameraEffectLength; index++)
+            List<CameraEffect> effects = camWorker.EffectsData.GetArrayEffect();
+            for (int index = 0; index < effects.Count; index++)
             {
-                CameraEffect camEffect;
-                if (camWorker.CameraEffectGetIndex(index, out camEffect))
+                EditorGUILayout.Space(2.5f);
+                EditorGUILayout.LabelField(effects[index].ClassName);
+                EditorGUILayout.BeginVertical("Box");
+                effects[index].DrawInspectorGUI();
+                
+                if (EditorApplication.isPlaying)
                 {
-                    EditorGUILayout.Space(2.5f);
-                    EditorGUILayout.LabelField(camEffect.ClassName);
-                    EditorGUILayout.BeginVertical("Box");
-                    camEffect.DrawInspectorGUI(serializedObject);
-
-                    if (EditorApplication.isPlaying == true)
+                    if (effects[index].isPlaying == false)
                     {
-                        if (camEffect.isPlaying == false)
-                        {
-                            if (GUILayout.Button("Play"))
-                            {
-                                camWorker.Action(camEffect);
-                            }
-                        }
-                        else
-                        {
-                            if (GUILayout.Button("Stop"))
-                            {
-                                camWorker.Stop(camEffect);
-                            }
-                        }
+                        if (GUILayout.Button("Play"))
+                            camWorker.Action(effects[index]);
                     }
-
-                    EditorGUILayout.EndVertical();
-                    EditorGUILayout.Space(2.5f);
+                    else
+                    {
+                        if (GUILayout.Button("Stop"))
+                            camWorker.Stop(effects[index]);
+                    }
                 }
+
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.Space(2.5f);
             }
+
             serializedObject.ApplyModifiedProperties();
         }
     }

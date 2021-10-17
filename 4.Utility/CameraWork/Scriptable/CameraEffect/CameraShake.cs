@@ -17,7 +17,7 @@ namespace MyLibrary.Utility
         
         public CameraShake(string name) : base(name) { _name = name;}
 
-        public override void DrawInspectorGUI(SerializedObject serializedObject)
+        public override void DrawInspectorGUI()
         {
             isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
 

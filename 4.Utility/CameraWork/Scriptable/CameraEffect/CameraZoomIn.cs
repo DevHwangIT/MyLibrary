@@ -22,9 +22,11 @@ namespace MyLibrary.Utility
         private float zoomAdditionDistance = 0f;
 
         #region Editor Variable
+
         private bool isInfinity = false;
+
         #endregion
-        
+
         public CameraZoomIn(string name) : base(name)
         {
             _name = name;
@@ -36,13 +38,10 @@ namespace MyLibrary.Utility
             _startCurve = AnimationCurve.Linear(0, 0, 1, 1);
             _returnCurve = AnimationCurve.Linear(0, 0, 1, 1);
         }
-        
-        public override void DrawInspectorGUI(SerializedObject serializedObject)
-        {
-            isCompleteBackInitPos = serializedObject.FindProperty("cameraEffects").GetArrayElementAtIndex(0).FindPropertyRelative("isCompleteBackInitPos").boolValue;
-            isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
-            serializedObject.FindProperty("cameraEffects").GetArrayElementAtIndex(0).FindPropertyRelative("isCompleteBackInitPos").boolValue = isCompleteBackInitPos;
 
+        public override void DrawInspectorGUI()
+        {
+            isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
             isInfinity = EditorGUILayout.Toggle("Duration is infinity?", isInfinity);
             if (isInfinity == false)
             {
@@ -55,10 +54,11 @@ namespace MyLibrary.Utility
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Target Transform :");
-            TargetTransform = (Transform)EditorGUILayout.ObjectField(TargetTransform, typeof(Transform), true);
+            TargetTransform = (Transform) EditorGUILayout.ObjectField(TargetTransform, typeof(Transform), true);
             EditorGUILayout.EndHorizontal();
-            
+
             TargetToCamDistance = EditorGUILayout.Vector3Field("Target To Camera Distance : ", TargetToCamDistance);
+            FollowSpeed = EditorGUILayout.FloatField("Camera Follow Speed : ", FollowSpeed);
             ZoomDistance = EditorGUILayout.FloatField("Addition Zoom Distance : ", ZoomDistance);
             StartPointMoveDuration = EditorGUILayout.FloatField("Delay from start to move destnation : ", StartPointMoveDuration);
             _startCurve = EditorGUILayout.CurveField("Start Movement : ", _startCurve);
@@ -71,29 +71,42 @@ namespace MyLibrary.Utility
             yield return new WaitForSeconds(zoomDelay);
             zoomAdditionDistance = 0;
         }
-        
+
         public override IEnumerator Action(Transform cam)
         {
             InitPosition = cam.transform.position;
             float time = 0f;
-            while (time < StartPointMoveDuration) 
-            {
-                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
-                cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            time = 0;
-            while (time < duration)
+            while (time < StartPointMoveDuration)
             {
                 Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
                 cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
                 time += Time.deltaTime;
                 yield return null;
             }
+            time = 0;
+            while (time < duration)
+            {
+                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance +
+                                    (cam.forward * zoomAdditionDistance);
+                cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            if (isCompleteBackInitPos)
+            {
+                time = 0;
+                while (time < StartPointMoveDuration)
+                {
+                    cam.position = Vector3.Lerp(cam.position, InitPosition, time / StartPointMoveDuration);
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+            }
+            
             CamCoroutine = null;
         }
-        
+
         public override void Stop(Transform cam)
         {
             if (isCompleteBackInitPos)
