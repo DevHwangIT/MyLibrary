@@ -11,9 +11,11 @@ namespace MyLibrary.Utility
     {
         public CameraZoomIn ZoomIn = new CameraZoomIn("Zoom-In");
         public CameraShake Shake = new CameraShake("Shake");
-
+        
         public List<CameraEffect> GetArrayEffect()
         {
+            // TODO : If possible in the future, use system.Reflection to convert class member fields to a list of cameraeffect class.
+            
             List<CameraEffect> effects = new List<CameraEffect>();
             effects.Add(ZoomIn);
             effects.Add(Shake);
@@ -21,7 +23,7 @@ namespace MyLibrary.Utility
             return effects;
         }
         
-        ///////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         public CameraEffect GetCameraEffect<T>() where T : CameraEffect
         {

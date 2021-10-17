@@ -79,7 +79,7 @@ namespace MyLibrary.Utility
             while (time < StartPointMoveDuration)
             {
                 Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
-                cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
+                cam.position = Vector3.Lerp(cam.position, t_destPos, _startCurve.Evaluate(time / StartPointMoveDuration));
                 time += Time.deltaTime;
                 yield return null;
             }
@@ -98,7 +98,7 @@ namespace MyLibrary.Utility
                 time = 0;
                 while (time < StartPointMoveDuration)
                 {
-                    cam.position = Vector3.Lerp(cam.position, InitPosition, time / StartPointMoveDuration);
+                    cam.position = Vector3.Lerp(cam.position, InitPosition, _startCurve.Evaluate(time / StartPointMoveDuration));
                     time += Time.deltaTime;
                     yield return null;
                 }
