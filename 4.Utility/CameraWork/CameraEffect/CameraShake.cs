@@ -6,24 +6,43 @@ using UnityEngine;
 
 namespace MyLibrary.Utility
 {
+    [System.Serializable]
     public class CameraShake : CameraEffect
     {
+        public bool isCompleteBackInitPos { get; set; }
+        
+        #region Editor Variable
+        private bool isInfinity = false;
+        #endregion
+        
         public CameraShake(string name) : base(name) { _name = name;}
 
-        public override void DrawInspectorGUI()
+        public override void DrawInspectorGUI(SerializedObject serializedObject)
         {
-            duration = EditorGUILayout.IntField("Duration : ",duration);
-            direction = EditorGUILayout.Vector3Field("Direction : ",direction);
+            isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
+
+            isInfinity = EditorGUILayout.Toggle("Duration is infinity?", isInfinity);
+            if (isInfinity == false)
+            {
+                duration = 0;
+                duration = EditorGUILayout.FloatField("Duration : ", duration);
+            }
+            else
+            {
+                duration = Mathf.Infinity;
+            }
+            
         }
 
         public override IEnumerator Action(Transform cam)
         {
-            Debug.Log("코루틴 실행 중 10초간");
             yield return new WaitForSeconds(1f);
-            Debug.Log("뭐야 되는거야 안되는거야");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("코루틴 종료 됨");
             CamCoroutine = null;
+        }
+
+        public override void Stop(Transform cam)
+        {
+            
         }
     }
 }

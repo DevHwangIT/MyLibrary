@@ -1,48 +1,105 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace MyLibrary.Utility
 {
+    [System.Serializable]
     public class CameraZoomIn : CameraEffect
     {
-        private AnimationCurve _curve = new AnimationCurve();
-        [SerializeField] private Transform Target;
+        public bool isCompleteBackInitPos;
+        public Transform TargetTransform;
+        public float FollowSpeed;
+        public Vector3 TargetToCamDistance;
+        public float ZoomDistance;
+        public float StartPointMoveDuration;
+        public AnimationCurve _startCurve = AnimationCurve.Linear(0, 0, 1, 1);
+        public AnimationCurve _returnCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
+        private Vector3 InitPosition;
+        private float zoomAdditionDistance = 0f;
+
+        #region Editor Variable
+        private bool isInfinity = false;
+        #endregion
+        
         public CameraZoomIn(string name) : base(name)
         {
             _name = name;
-            _curve = AnimationCurve.Linear(0, 0, 1, 1);
+            isCompleteBackInitPos = false;
+            duration = 1f;
+            FollowSpeed = 15f;
+            ZoomDistance = -1.25f;
+            StartPointMoveDuration = 0.15f;
+            _startCurve = AnimationCurve.Linear(0, 0, 1, 1);
+            _returnCurve = AnimationCurve.Linear(0, 0, 1, 1);
         }
         
-        public override void DrawInspectorGUI()
+        public override void DrawInspectorGUI(SerializedObject serializedObject)
         {
-            duration = EditorGUILayout.IntField("Duration : ",duration);
-            direction = EditorGUILayout.Vector3Field("Direction : ",direction);
-            _curve = EditorGUILayout.CurveField("Zoom Curve : ",_curve);
+            isCompleteBackInitPos = serializedObject.FindProperty("cameraEffects").GetArrayElementAtIndex(0).FindPropertyRelative("isCompleteBackInitPos").boolValue;
+            isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
+            serializedObject.FindProperty("cameraEffects").GetArrayElementAtIndex(0).FindPropertyRelative("isCompleteBackInitPos").boolValue = isCompleteBackInitPos;
+
+            isInfinity = EditorGUILayout.Toggle("Duration is infinity?", isInfinity);
+            if (isInfinity == false)
+            {
+                duration = EditorGUILayout.FloatField("Duration : ", duration);
+            }
+            else
+            {
+                duration = Mathf.Infinity;
+            }
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Target Transform :");
+            TargetTransform = (Transform)EditorGUILayout.ObjectField(TargetTransform, typeof(Transform), true);
+            EditorGUILayout.EndHorizontal();
+            
+            TargetToCamDistance = EditorGUILayout.Vector3Field("Target To Camera Distance : ", TargetToCamDistance);
+            ZoomDistance = EditorGUILayout.FloatField("Addition Zoom Distance : ", ZoomDistance);
+            StartPointMoveDuration = EditorGUILayout.FloatField("Delay from start to move destnation : ", StartPointMoveDuration);
+            _startCurve = EditorGUILayout.CurveField("Start Movement : ", _startCurve);
+            _returnCurve = EditorGUILayout.CurveField("Return Movement : ", _returnCurve);
         }
 
+        public IEnumerator ZoomCam(float zoomDelay)
+        {
+            zoomAdditionDistance = ZoomDistance;
+            yield return new WaitForSeconds(zoomDelay);
+            zoomAdditionDistance = 0;
+        }
+        
         public override IEnumerator Action(Transform cam)
         {
-            float duration = 0f;
-            while (duration < 5f)
+            InitPosition = cam.transform.position;
+            float time = 0f;
+            while (time < StartPointMoveDuration) 
             {
-                cam.Translate(Vector3.up * 10 * Time.fixedDeltaTime);
-                duration += Time.fixedDeltaTime;
+                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
+                cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
                 yield return null;
             }
-            yield return new WaitForSeconds(1f);
-            duration = 0f;
-            while (duration < 5f)
+
+            time = 0;
+            while (time < duration)
             {
-                cam.Translate(Vector3.down * 10 * Time.fixedDeltaTime);
-                duration += Time.fixedDeltaTime;
+                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
+                cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
+                time += Time.deltaTime;
                 yield return null;
             }
-            yield return new WaitForSeconds(1f);
-            Debug.Log("코루틴 종료 됨");
             CamCoroutine = null;
+        }
+        
+        public override void Stop(Transform cam)
+        {
+            if (isCompleteBackInitPos)
+            {
+                cam.transform.position = InitPosition;
+            }
         }
     }
 }

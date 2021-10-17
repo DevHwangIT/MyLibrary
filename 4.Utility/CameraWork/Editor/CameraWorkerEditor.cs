@@ -6,49 +6,61 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CustomEditor(typeof(CameraWorker))]
-public class CameraWorkerEditor : Editor
+namespace MyLibrary.Utility
 {
-    private CameraWorker camWorker;
-    
-    void OnEnable()
+    [CustomEditor(typeof(CameraWorker))]
+    public class CameraWorkerEditor : Editor
     {
-        camWorker = (CameraWorker) target;
-    }
+        private CameraWorker camWorker;
 
-    public override void OnInspectorGUI()
-    {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Camera Type : ");
-        camWorker.cameraType = (CameraWorkType) EditorGUILayout.EnumPopup(camWorker.cameraType);
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space(1);
-        
-        for (int index = 0; index < camWorker.CameraEffects.Length; index++)
+        void OnEnable()
         {
-            EditorGUILayout.LabelField(camWorker.CameraEffects[index].ClassName);
-            EditorGUILayout.BeginVertical("Box");
-            camWorker.CameraEffects[index].DrawInspectorGUI();
+            camWorker = (CameraWorker) target;
+        }
 
-            if (EditorApplication.isPlaying == true)
+        public override void OnInspectorGUI()
+        {
+            
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.Space(1f);
+            EditorGUILayout.LabelField("Camera Type : ");
+            camWorker.cameraType = (CameraWorkType) EditorGUILayout.EnumPopup(camWorker.cameraType);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(5f);
+
+            for (int index = 0; index < camWorker.CameraEffectLength; index++)
             {
-                if (camWorker.CameraEffects[index].isPlaying == false)
+                CameraEffect camEffect;
+                if (camWorker.CameraEffectGetIndex(index, out camEffect))
                 {
-                    if (GUILayout.Button("Play"))
+                    EditorGUILayout.Space(2.5f);
+                    EditorGUILayout.LabelField(camEffect.ClassName);
+                    EditorGUILayout.BeginVertical("Box");
+                    camEffect.DrawInspectorGUI(serializedObject);
+
+                    if (EditorApplication.isPlaying == true)
                     {
-                        camWorker.Action(camWorker.CameraEffects[index]);
+                        if (camEffect.isPlaying == false)
+                        {
+                            if (GUILayout.Button("Play"))
+                            {
+                                camWorker.Action(camEffect);
+                            }
+                        }
+                        else
+                        {
+                            if (GUILayout.Button("Stop"))
+                            {
+                                camWorker.Stop(camEffect);
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    if (GUILayout.Button("Stop"))
-                    {
-                        camWorker.Stop(camWorker.CameraEffects[index]);
-                    }
+
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.Space(2.5f);
                 }
             }
-
-            EditorGUILayout.EndVertical();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
