@@ -13,6 +13,7 @@ namespace MyLibrary.Utility
     {
         protected string _name = "Camera Effect";
         public string ClassName => _name;
+        public bool isInspectorShown;
         public Coroutine CamCoroutine;
         public bool isPlaying => CamCoroutine != null ? true : false;
         public float duration;

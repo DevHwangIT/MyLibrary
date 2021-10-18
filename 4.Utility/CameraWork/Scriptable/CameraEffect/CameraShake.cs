@@ -3,19 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MyLibrary.Utility
 {
     [System.Serializable]
     public class CameraShake : CameraEffect
     {
-        public bool isCompleteBackInitPos { get; set; }
+        public bool isCompleteBackInitPos;
+        private float _amount;
         
+        private Vector3 InitPosition;
+
         #region Editor Variable
         private bool isInfinity = false;
         #endregion
-        
-        public CameraShake(string name) : base(name) { _name = name;}
+
+        public CameraShake(string name) : base(name)
+        {
+            _name = name;
+            duration = 1f;
+            _amount = 1f;
+        }
 
         public override void DrawInspectorGUI()
         {
@@ -24,25 +33,36 @@ namespace MyLibrary.Utility
             isInfinity = EditorGUILayout.Toggle("Duration is infinity?", isInfinity);
             if (isInfinity == false)
             {
-                duration = 0;
                 duration = EditorGUILayout.FloatField("Duration : ", duration);
             }
             else
             {
                 duration = Mathf.Infinity;
             }
-            
-        }
 
+            _amount = EditorGUILayout.FloatField("Amount : ", _amount);
+        }
+ 
         public override IEnumerator Action(Transform cam)
         {
-            yield return new WaitForSeconds(1f);
+            InitPosition = cam.transform.position;
+            float timer=0;
+            while (timer <= duration)
+            {
+                cam.localPosition = (Vector3) Random.insideUnitCircle * _amount + InitPosition;
+                timer += Time.deltaTime;
+                yield return null;
+            }
+            cam.transform.position = InitPosition;
             CamCoroutine = null;
         }
 
         public override void Stop(Transform cam)
         {
-            
+            if (isCompleteBackInitPos)
+            {
+                cam.transform.position = InitPosition;
+            }
         }
     }
 }

@@ -7,11 +7,12 @@ using UnityEngine;
 namespace MyLibrary.Utility
 {
     [System.Serializable]
-    public class CameraZoomIn : CameraEffect
+    public class CameraFocusing : CameraEffect
     {
         public bool isCompleteBackInitPos;
         public Transform TargetTransform;
         public float FollowSpeed;
+        public bool isLookat;
         public Vector3 TargetToCamDistance;
         public float ZoomDistance;
         public float StartPointMoveDuration;
@@ -27,11 +28,13 @@ namespace MyLibrary.Utility
 
         #endregion
 
-        public CameraZoomIn(string name) : base(name)
+        public CameraFocusing(string name) : base(name)
         {
             _name = name;
             isCompleteBackInitPos = false;
             duration = 1f;
+            isLookat = false;
+            TargetToCamDistance = new Vector3(0, 5, -5);
             FollowSpeed = 15f;
             ZoomDistance = -1.25f;
             StartPointMoveDuration = 0.15f;
@@ -57,6 +60,7 @@ namespace MyLibrary.Utility
             TargetTransform = (Transform) EditorGUILayout.ObjectField(TargetTransform, typeof(Transform), true);
             EditorGUILayout.EndHorizontal();
 
+            isLookat = EditorGUILayout.Toggle("isLookAt? ", isLookat);
             TargetToCamDistance = EditorGUILayout.Vector3Field("Target To Camera Distance : ", TargetToCamDistance);
             FollowSpeed = EditorGUILayout.FloatField("Camera Follow Speed : ", FollowSpeed);
             ZoomDistance = EditorGUILayout.FloatField("Addition Zoom Distance : ", ZoomDistance);
@@ -86,8 +90,10 @@ namespace MyLibrary.Utility
             time = 0;
             while (time < duration)
             {
-                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance +
-                                    (cam.forward * zoomAdditionDistance);
+                if (isLookat)
+                    cam.LookAt(TargetTransform);
+                
+                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
                 cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
                 time += Time.deltaTime;
                 yield return null;

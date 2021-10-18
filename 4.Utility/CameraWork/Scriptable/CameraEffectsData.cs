@@ -9,7 +9,7 @@ namespace MyLibrary.Utility
     [CreateAssetMenu]
     public class CameraEffectsData : ScriptableObject
     {
-        public CameraZoomIn ZoomIn = new CameraZoomIn("Zoom-In");
+        public CameraFocusing Focusing = new CameraFocusing("Focusing");
         public CameraShake Shake = new CameraShake("Shake");
         
         public List<CameraEffect> GetArrayEffect()
@@ -17,7 +17,7 @@ namespace MyLibrary.Utility
             // TODO : If possible in the future, use system.Reflection to convert class member fields to a list of cameraeffect class.
             
             List<CameraEffect> effects = new List<CameraEffect>();
-            effects.Add(ZoomIn);
+            effects.Add(Focusing);
             effects.Add(Shake);
             
             return effects;

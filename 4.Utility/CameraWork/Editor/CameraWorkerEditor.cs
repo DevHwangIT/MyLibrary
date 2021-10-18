@@ -28,10 +28,18 @@ namespace MyLibrary.Utility
             EditorGUILayout.Space(5f);
 
             List<CameraEffect> effects = camWorker.EffectsData.GetArrayEffect();
+            
             for (int index = 0; index < effects.Count; index++)
             {
                 EditorGUILayout.Space(2.5f);
-                EditorGUILayout.LabelField(effects[index].ClassName);
+
+                EditorGUILayout.BeginHorizontal();
+                effects[index].isInspectorShown = EditorGUILayout.ToggleLeft(effects[index].ClassName, effects[index].isInspectorShown);
+                EditorGUILayout.EndHorizontal();
+
+                if (!effects[index].isInspectorShown)
+                    continue;
+                
                 EditorGUILayout.BeginVertical("Box");
                 effects[index].DrawInspectorGUI();
                 
