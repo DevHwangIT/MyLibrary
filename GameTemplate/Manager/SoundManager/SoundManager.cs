@@ -33,8 +33,23 @@ public class SoundManager : MonoBehaviour
 
     #endregion
 
+    [Header("Scriptable Object Data")]
+    [SerializeField] private AudioClipData _bgmClipData;
+    [SerializeField] private AudioClipData _sfxClipData;
+    [Header("How many audio clips do you make into objects for pooling? ")]
+    [SerializeField] private int createAudioPrefabCount = 10;
+    
+    private Dictionary<AudioClip, List<GameObject>> clipDictionary = new Dictionary<AudioClip, List<GameObject>>();
+    private AudioSource _bgmAudioSource;
+    
+    private const float MuteVolume = -80;
+    private const float MinimumVolum = -40;
+    private const float MaximumVolum = 0;
+    
+    private GameObject audioClipDataParentTransform;
+    private GameObject clipPoolingParentTransform;
+    
     private AudioMixer audioMixer;
-
     private AudioMixer GetMixer
     {
         get
@@ -54,10 +69,6 @@ public class SoundManager : MonoBehaviour
             return audioMixer;
         }
     }
-
-    private const float MuteVolume = -80;
-    private const float MinimumVolum = -40;
-    private const float MaximumVolum = 0;
 
     public float Volum
     {
@@ -153,28 +164,48 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private AudioClipData _bgmClipData;
-    [SerializeField] private AudioClipData _sfxClipData;
-    private AudioSource _bgmAudioSource;
-
     private void Awake()
     {
-        GameObject audioClipDataParent = new GameObject();
-        audioClipDataParent.transform.parent = this.transform;
-        audioClipDataParent.gameObject.name = "Sound Controller";
+        audioClipDataParentTransform = new GameObject("Sound Controller");
+        audioClipDataParentTransform.transform.parent = transform;
 
-        GameObject BGMAudioSource = new GameObject();
-        BGMAudioSource.transform.parent = audioClipDataParent.transform;
-        BGMAudioSource.gameObject.name = "BGM";
+        GameObject BGMAudioSource = new GameObject("BGM");
+        BGMAudioSource.transform.parent = audioClipDataParentTransform.transform;
         _bgmAudioSource = BGMAudioSource.AddComponent<AudioSource>();
         _bgmAudioSource.outputAudioMixerGroup = GetMixer.FindMatchingGroups("Master")[1];
 
+
+        clipPoolingParentTransform = new GameObject("AudioClip Pool");
+        clipPoolingParentTransform.transform.parent = audioClipDataParentTransform.transform;
+        
+        foreach (var sound in _sfxClipData.GetSounds)
+        {
+            if (clipDictionary.ContainsKey(sound.GetClip) == false)
+                clipDictionary.Add(sound.GetClip, new List<GameObject>());
+            
+            for (int i = 0; i < createAudioPrefabCount; i++)
+            {
+                clipDictionary[sound.GetClip].Add(CreateClipGameObject(sound.GetName, sound.GetClip));
+            }
+        }
         _bgmAudioSource.playOnAwake = true;
     }
 
+    private GameObject CreateClipGameObject(string clipName, AudioClip clip)
+    {
+        GameObject clipSource = new GameObject(clipName + " Audio");
+        clipSource.transform.parent = clipPoolingParentTransform.transform;
+        AudioSource source = clipSource.AddComponent<AudioSource>();
+        source.outputAudioMixerGroup = GetMixer.FindMatchingGroups("Master")[2];
+        source.playOnAwake = false;
+        source.clip = clip;
+
+        return clipSource;
+    }
+    
     public void PlayBGMSound(string clipName)
     {
-        AudioClip bgmClip = _bgmClipData.GetClip(clipName);
+        AudioClip bgmClip = _bgmClipData.GetSound(clipName).GetClip;
         if (bgmClip != null)
         {
             _bgmAudioSource.Stop();
@@ -185,19 +216,25 @@ public class SoundManager : MonoBehaviour
 
     public void PlayVFXSound(string clipName)
     {
-        AudioClip sfxObj = _sfxClipData.GetClip(clipName);
-        if (sfxObj != null)
+        Sound sound = _sfxClipData.GetSound(clipName);
+        if (sound != null)
         {
-            //ObjectPool
-        }
-    }
-    
-    public void PlayVFXSound(string clipName, Vector3 Position)
-    {
-        AudioClip sfxObj = _sfxClipData.GetClip(clipName);
-        if (sfxObj != null)
-        {
-            //ObjectPool
+            List<GameObject> cList = null;
+            if (clipDictionary.TryGetValue(sound.GetClip, out cList))
+            {
+                foreach (var clipObj in cList)
+                {
+                    AudioSource clipSource = clipObj.GetComponent<AudioSource>();
+                    if (clipSource.isPlaying == false)
+                    {
+                        clipSource.Play();
+                        return;
+                    }
+                }
+                AudioSource objAudiosource = CreateClipGameObject(sound.GetName, sound.GetClip).GetComponent<AudioSource>();
+                clipDictionary[sound.GetClip].Add(objAudiosource.gameObject);
+                objAudiosource.Play();
+            }
         }
     }
 }
