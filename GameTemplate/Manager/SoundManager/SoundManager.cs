@@ -55,13 +55,34 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private const float MuteVolume = -80;
+    private const float MinimumVolum = -40;
+    private const float MaximumVolum = 0;
+
+    public float Volum
+    {
+        set
+        {
+            float volum = Mathf.Clamp(value, 0f, 1f);
+            AudioListener.volume = volum;
+        }
+        get
+        {
+            return AudioListener.volume;
+        }
+    }
+    
     public float MasterVolum
     {
         set
         {
             float volum = value;
-            volum = Mathf.Clamp(volum, 0, 1);
-            GetMixer.SetFloat("Master", Mathf.Log10(volum) * 20);
+            volum = Mathf.Clamp(volum, 0f, 1f);
+            volum = Mathf.Lerp(MinimumVolum, MaximumVolum, volum);
+            if ((int) volum == MinimumVolum)
+                GetMixer.SetFloat("Master", MuteVolume);
+            else
+                GetMixer.SetFloat("Master", volum);
         }
         get
         {
@@ -76,8 +97,12 @@ public class SoundManager : MonoBehaviour
         set
         {
             float volum = value;
-            volum = Mathf.Clamp(volum, 0, 1);
-            GetMixer.SetFloat("BGM", Mathf.Log10(volum) * 20);
+            volum = Mathf.Clamp(volum, 0f, 1f);
+            volum = Mathf.Lerp(MinimumVolum, MaximumVolum, volum);
+            if ((int) volum == MinimumVolum)
+                GetMixer.SetFloat("BGM", MuteVolume);
+            else
+                GetMixer.SetFloat("BGM", volum);
         }
         get
         {
@@ -92,8 +117,12 @@ public class SoundManager : MonoBehaviour
         set
         {
             float volum = value;
-            volum = Mathf.Clamp(volum, 0, 1);
-            GetMixer.SetFloat("SFX", Mathf.Log10(volum) * 20);
+            volum = Mathf.Clamp(volum, 0f, 1f);
+            volum = Mathf.Lerp(MinimumVolum, MaximumVolum, volum);
+            if ((int) volum == MinimumVolum)
+                GetMixer.SetFloat("SFX", MuteVolume);
+            else
+                GetMixer.SetFloat("SFX", volum);
         }
         get
         {
@@ -105,12 +134,16 @@ public class SoundManager : MonoBehaviour
 
     public float UIVolum
     {
-        
+
         set
         {
             float volum = value;
-            volum = Mathf.Clamp(volum, 0, 1);
-            GetMixer.SetFloat("UI", Mathf.Log10(volum) * 20);
+            volum = Mathf.Clamp(volum, 0f, 1f);
+            volum = Mathf.Lerp(MinimumVolum, MaximumVolum, volum);
+            if ((int) volum == MinimumVolum)
+                GetMixer.SetFloat("UI", MuteVolume);
+            else
+                GetMixer.SetFloat("UI", volum);
         }
         get
         {
