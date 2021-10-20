@@ -30,9 +30,11 @@ namespace MyLibrary.Utility
             if (_controller.hideType == HideType.ObjectPooling)
             {
                 EditorGUILayout.Space(5);
-                SerializedProperty poolingCallEvent = serializedObject.FindProperty("onObjectPoolCalling");
+                SerializedProperty getToPoolEvent = serializedObject.FindProperty("onGetToPool");
+                SerializedProperty returnToPoolEvent = serializedObject.FindProperty("onReturnToPool");
                 EditorGUIUtility.LookLikeControls();
-                EditorGUILayout.PropertyField(poolingCallEvent);
+                EditorGUILayout.PropertyField(getToPoolEvent);
+                EditorGUILayout.PropertyField(returnToPoolEvent);
             }
             
             _controller.destroyType = (DestroyCondition) EditorGUILayout.EnumPopup("Destory Type : ", _controller.destroyType);

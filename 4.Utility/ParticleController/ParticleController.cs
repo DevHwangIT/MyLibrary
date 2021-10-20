@@ -53,7 +53,8 @@ namespace MyLibrary.Utility
 		private Vector3 InitPos;
 		private bool isPlaying = false;
 
-		public UnityEvent onObjectPoolCalling;
+		public UnityEvent onGetToPool;
+		public UnityEvent onReturnToPool;
 
 		private void Awake()
 		{
@@ -89,45 +90,44 @@ namespace MyLibrary.Utility
 			destructionTimer = 0f;
 			foreach (var particle in ParticleSystems)
 			{
+				ParticleSystem.MainModule particleMain = particle.main;
+				particleMain.scalingMode = ParticleSystemScalingMode.Local;
+
+				if (playConditionType == PlayCondition.PlayCall)
+					particleMain.playOnAwake = false;
+				else
+					particleMain.playOnAwake = true;
+
 				particle.gameObject.transform.localScale = Vector3.one;
 				if (particle.isPlaying)
 					particle.Stop();
 			}
+
 			this.gameObject.SetActive(true);
 			isPlaying = false;
-			
-			if (hideType == HideType.Scaling)
+
+			switch (hideType)
 			{
-				for (int i = 0; i < ParticleSystems.Length; i++)
-				{
-					ParticleSystem.MainModule particle = ParticleSystems[i].main;
-					particle.scalingMode = ParticleSystemScalingMode.Hierarchy;
-				}
-			}
-			else
-			{
-				for (int i = 0; i < ParticleSystems.Length; i++)
-				{
-					ParticleSystem.MainModule particle = ParticleSystems[i].main;
-					particle.scalingMode = ParticleSystemScalingMode.Local;
-				}
-			}
-			
-			if (playConditionType == PlayCondition.PlayCall)
-			{
-				foreach (var particle in ParticleSystems)
-				{
-					var particleMain = particle.main;
-					particleMain.playOnAwake = false;
-				}
-			}
-			else
-			{
-				foreach (var particle in ParticleSystems)
-				{
-					var particleMain = particle.main;
-					particleMain.playOnAwake = true;
-				}
+				case HideType.Destroy:
+					Destroy(this.gameObject);
+					break;
+
+				case HideType.Scaling:
+					for (int i = 0; i < ParticleSystems.Length; i++)
+					{
+						ParticleSystem.MainModule particle = ParticleSystems[i].main;
+						particle.scalingMode = ParticleSystemScalingMode.Hierarchy;
+					}
+
+					break;
+
+				case HideType.Enable:
+					this.gameObject.SetActive(false);
+					break;
+
+				case HideType.ObjectPooling:
+					onGetToPool?.Invoke();
+					break;
 			}
 		}
 
@@ -139,7 +139,6 @@ namespace MyLibrary.Utility
 				if (!particle.isPlaying) 
 					particle.Play();
 			}
-
 			isPlaying = true;
 		}
 		
@@ -150,7 +149,6 @@ namespace MyLibrary.Utility
 				if (particle.isPlaying)
 					particle.Pause();
 			}
-			
 			isPlaying = false;
 		}
 
@@ -170,9 +168,7 @@ namespace MyLibrary.Utility
 				
 				case HideType.Scaling:
 					for (int i = 0; i < ParticleSystems.Length; i++)
-					{
 						ParticleSystems[i].gameObject.transform.localScale = Vector3.zero;
-					}
 					break;
 				
 				case HideType.Enable:
@@ -180,7 +176,7 @@ namespace MyLibrary.Utility
 					break;
 				
 				case HideType.ObjectPooling:
-					onObjectPoolCalling?.Invoke();
+					onReturnToPool?.Invoke();
 					break;
 			}
 			isPlaying = false;
