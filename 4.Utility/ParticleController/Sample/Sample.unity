@@ -146,7 +146,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &121910662 stripped
@@ -173,7 +176,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &142120738
@@ -266,7 +272,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 5
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &243857667 stripped
@@ -293,7 +302,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &337736208
@@ -478,7 +490,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &585115022 stripped
@@ -505,7 +520,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 1710992079}
   distanceValue: 5
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &639785081 stripped
@@ -532,7 +550,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &694500582 stripped
@@ -559,7 +580,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &776444775
@@ -894,7 +918,7 @@ PrefabInstance:
     - target: {fileID: 198446971744627332, guid: 25093a0593dc83043a7bc17ebba0e95d,
         type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198542584851361198, guid: 25093a0593dc83043a7bc17ebba0e95d,
         type: 3}
@@ -1165,7 +1189,7 @@ PrefabInstance:
     - target: {fileID: 198371139109276902, guid: 08fd1b80cc24cc8439f45fda3c558255,
         type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198421910201038450, guid: 08fd1b80cc24cc8439f45fda3c558255,
         type: 3}
@@ -1238,6 +1262,11 @@ PrefabInstance:
     - target: {fileID: 4731861580502952, guid: c590b17884b119046bc6412066500b7d, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198696392922457284, guid: c590b17884b119046bc6412066500b7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 199011672764196750, guid: c590b17884b119046bc6412066500b7d,
         type: 3}
@@ -1412,7 +1441,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1803782334 stripped
@@ -1439,7 +1471,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 3
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1977579806
@@ -1532,7 +1567,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &2009882168 stripped
@@ -1559,7 +1597,10 @@ MonoBehaviour:
   distanceCompareTarget: {fileID: 0}
   distanceValue: 0
   durationTime: 0
-  onObjectPoolCalling:
+  onGetToPool:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnToPool:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &2085663076
@@ -1614,7 +1655,7 @@ PrefabInstance:
     - target: {fileID: 198853902749890928, guid: 78e8b38d431ddef4fa2994a3f2d6e2ff,
         type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198998320551559234, guid: 78e8b38d431ddef4fa2994a3f2d6e2ff,
         type: 3}
