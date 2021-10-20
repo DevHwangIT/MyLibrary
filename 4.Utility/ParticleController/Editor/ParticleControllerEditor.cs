@@ -21,16 +21,18 @@ namespace MyLibrary.Utility
         {
             EditorGUILayout.BeginVertical();
             EditorGUILayout.Space(5);
+            _controller.playConditionType = (PlayCondition) EditorGUILayout.EnumPopup("Particle Play Condition : ", _controller.playConditionType);
+            
+            EditorGUILayout.Space(5);
             EditorGUILayout.LabelField("Particle Property");
             
-            _controller.HideType = (HideType) EditorGUILayout.EnumPopup("Hide Type : ", _controller.HideType);
-            if (_controller.HideType == HideType.ObjectPooling)
+            _controller.hideType = (HideType) EditorGUILayout.EnumPopup("Hide Type : ", _controller.hideType);
+            if (_controller.hideType == HideType.ObjectPooling)
             {
                 EditorGUILayout.Space(5);
                 SerializedProperty poolingCallEvent = serializedObject.FindProperty("onObjectPoolCalling");
                 EditorGUIUtility.LookLikeControls();
                 EditorGUILayout.PropertyField(poolingCallEvent);
-                serializedObject.ApplyModifiedProperties();
             }
             
             _controller.destroyType = (DestroyCondition) EditorGUILayout.EnumPopup("Destory Type : ", _controller.destroyType);
@@ -50,6 +52,7 @@ namespace MyLibrary.Utility
                     break;
             }
             EditorGUILayout.EndVertical();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

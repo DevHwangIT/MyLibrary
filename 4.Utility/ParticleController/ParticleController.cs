@@ -7,6 +7,12 @@ using UnityEngine.Events;
 
 namespace MyLibrary.Utility
 {
+	public enum PlayCondition
+	{
+		PlayOnAwake,
+		PlayCall
+	}
+	
 	public enum HideType
 	{
 		Destroy,
@@ -24,32 +30,9 @@ namespace MyLibrary.Utility
 	
 	public class ParticleController : MonoBehaviour
 	{
-		private HideType hideType = HideType.Enable;
-		public HideType HideType
-		{
-			get { return hideType; }
-			set
-			{
-				hideType = value;
-				if (hideType == HideType.Scaling)
-				{
-					for (int i = 0; i < particleSystems.Length; i++)
-					{
-						ParticleSystem.MainModule particle = particleSystems[i].main;
-						particle.scalingMode = ParticleSystemScalingMode.Hierarchy;
-					}
-				}
-				else
-				{
-					for (int i = 0; i < particleSystems.Length; i++)
-					{
-						ParticleSystem.MainModule particle = particleSystems[i].main;
-						particle.scalingMode = ParticleSystemScalingMode.Local;
-					}
-				}
-			}
-		}
+		public HideType hideType = HideType.Enable;
 		public DestroyCondition destroyType = DestroyCondition.DeleteCall;
+		public PlayCondition playConditionType = PlayCondition.PlayCall;
 
 		public Transform distanceCompareTarget = null;
 		public float distanceValue = 0;
@@ -57,30 +40,46 @@ namespace MyLibrary.Utility
 		public float durationTime = 0;
 
 		private ParticleSystem[] particleSystems;
-		private bool IsPaused = true;
-		private Vector3 InitPos;
-
-		public UnityEvent onObjectPoolCalling;
-		void Awake()
+		public ParticleSystem[] ParticleSystems
 		{
-			particleSystems = this.GetComponentsInChildren<ParticleSystem>(true);
-			Initialize();
+			get
+			{
+				if (particleSystems == null)
+					particleSystems = this.GetComponentsInChildren<ParticleSystem>(true);
+				return particleSystems;
+			}
 		}
 		
+		private Vector3 InitPos;
+		private bool isPlaying = false;
+
+		public UnityEvent onObjectPoolCalling;
+
+		private void Awake()
+		{
+			Initialize();
+
+			if (playConditionType == PlayCondition.PlayOnAwake)
+				Play();
+		}
+
 		void FixedUpdate()
 		{
-			destructionTimer += Time.fixedDeltaTime;
-			switch (destroyType)
+			if (isPlaying)
 			{
-				case DestroyCondition.Distance:
-					if (Vector3.Distance(InitPos, distanceCompareTarget.position) > distanceValue)
-						Stop();
-					break;
-				
-				case DestroyCondition.Time:
-					if (destructionTimer > durationTime)
-						Stop();
-					break;
+				destructionTimer += Time.fixedDeltaTime;
+				switch (destroyType)
+				{
+					case DestroyCondition.Distance:
+						if (Vector3.Distance(InitPos, distanceCompareTarget.position) > distanceValue)
+							Stop();
+						break;
+
+					case DestroyCondition.Time:
+						if (destructionTimer > durationTime)
+							Stop();
+						break;
+				}
 			}
 		}
 
@@ -88,37 +87,76 @@ namespace MyLibrary.Utility
 		{
 			InitPos = transform.position;
 			destructionTimer = 0f;
-			foreach (var particle in particleSystems)
+			foreach (var particle in ParticleSystems)
 			{
 				particle.gameObject.transform.localScale = Vector3.one;
 				if (particle.isPlaying)
 					particle.Stop();
 			}
 			this.gameObject.SetActive(true);
+			isPlaying = false;
+			
+			if (hideType == HideType.Scaling)
+			{
+				for (int i = 0; i < ParticleSystems.Length; i++)
+				{
+					ParticleSystem.MainModule particle = ParticleSystems[i].main;
+					particle.scalingMode = ParticleSystemScalingMode.Hierarchy;
+				}
+			}
+			else
+			{
+				for (int i = 0; i < ParticleSystems.Length; i++)
+				{
+					ParticleSystem.MainModule particle = ParticleSystems[i].main;
+					particle.scalingMode = ParticleSystemScalingMode.Local;
+				}
+			}
+			
+			if (playConditionType == PlayCondition.PlayCall)
+			{
+				foreach (var particle in ParticleSystems)
+				{
+					var particleMain = particle.main;
+					particleMain.playOnAwake = false;
+				}
+			}
+			else
+			{
+				foreach (var particle in ParticleSystems)
+				{
+					var particleMain = particle.main;
+					particleMain.playOnAwake = true;
+				}
+			}
 		}
 
 		public void Play()
 		{
 			Initialize();
-			foreach (var particle in particleSystems)
+			foreach (var particle in ParticleSystems)
 			{
 				if (!particle.isPlaying) 
 					particle.Play();
 			}
+
+			isPlaying = true;
 		}
 		
 		public void Pause()
 		{
-			foreach (var particle in particleSystems)
+			foreach (var particle in ParticleSystems)
 			{
 				if (particle.isPlaying)
 					particle.Pause();
 			}
+			
+			isPlaying = false;
 		}
 
 		public void Stop()
 		{
-			foreach (var particle in particleSystems)
+			foreach (var particle in ParticleSystems)
 			{
 				if (particle.isPlaying)
 					particle.Stop();
@@ -131,9 +169,9 @@ namespace MyLibrary.Utility
 					break;
 				
 				case HideType.Scaling:
-					for (int i = 0; i < particleSystems.Length; i++)
+					for (int i = 0; i < ParticleSystems.Length; i++)
 					{
-						particleSystems[i].gameObject.transform.localScale = Vector3.zero;
+						ParticleSystems[i].gameObject.transform.localScale = Vector3.zero;
 					}
 					break;
 				
@@ -145,6 +183,7 @@ namespace MyLibrary.Utility
 					onObjectPoolCalling?.Invoke();
 					break;
 			}
+			isPlaying = false;
 		}
 	}
 }
