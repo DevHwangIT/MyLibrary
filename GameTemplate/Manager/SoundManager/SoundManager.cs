@@ -173,7 +173,7 @@ public class SoundManager : MonoBehaviour
         BGMAudioSource.transform.parent = audioClipDataParentTransform.transform;
         _bgmAudioSource = BGMAudioSource.AddComponent<AudioSource>();
         _bgmAudioSource.outputAudioMixerGroup = GetMixer.FindMatchingGroups("Master")[1];
-
+        _bgmAudioSource.loop = true;
 
         clipPoolingParentTransform = new GameObject("AudioClip Pool");
         clipPoolingParentTransform.transform.parent = audioClipDataParentTransform.transform;
