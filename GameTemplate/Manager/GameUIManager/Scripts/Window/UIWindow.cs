@@ -14,6 +14,9 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 	protected bool _IsFocused = false;
 	private CanvasGroup _CanvasGroup;
 
+	[SerializeField] private bool isNotHideWithCancelInput;
+	public bool NotHideWithCancelInput => isNotHideWithCancelInput;
+	
 	public UIWindowID ID
 	{
 		get { return this._WindowId; }
@@ -68,6 +71,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 			return;
 
 		_CanvasGroup.alpha = 1;
+		_CanvasGroup.blocksRaycasts = true;
 		this.Focus();
 	}
 
@@ -77,6 +81,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 			return;
 
 		_CanvasGroup.alpha = 0;
+		_CanvasGroup.blocksRaycasts = false;
 	}
 
 	#region Static Methods
