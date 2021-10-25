@@ -56,7 +56,7 @@ public class UIWindowManager : MonoBehaviour
 
 	protected virtual void Update()
 	{
-		if (Input.GetButtonDown(this.m_EscapeInputName))
+		if (m_EscapeInputName.Equals("") == false && Input.GetButtonDown(this.m_EscapeInputName)) 
 		{
 			List<UIWindow> windows = UIWindow.GetWindows();
 			UIWindow lastWindow = null;

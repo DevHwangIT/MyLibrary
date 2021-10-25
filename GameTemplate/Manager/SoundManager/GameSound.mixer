@@ -116,7 +116,7 @@ AudioMixerSnapshotController:
     5bcc64cb9db9cdc43bfe308ecb467125: 0
     e21edcdb636578d47ab4ccf2993d9b1a: 0
     e86dd05d2c30be646b539d3a5021fb6c: 0
-    fd2b969e41557594f9e0f246e12e210f: -31.5
+    fd2b969e41557594f9e0f246e12e210f: 0
   m_TransitionOverrides: {}
 --- !u!243 &2048021911074104732
 AudioMixerGroupController:
