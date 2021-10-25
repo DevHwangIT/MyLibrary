@@ -34,6 +34,7 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 	{
 		this._CanvasGroup = this.gameObject.GetComponent<CanvasGroup>();
 		this.transform.SetParent(UIWindowManager.Instance.transform);
+		UIWindowManager.Instance.SortingWindowUIOrder();
 	}
 
 	protected virtual bool IsActive()
