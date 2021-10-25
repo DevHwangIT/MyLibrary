@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class UIWindowManager : MonoBehaviour
@@ -24,12 +25,13 @@ public class UIWindowManager : MonoBehaviour
 					{
 						GameObject canvasGameObj = new GameObject("Canvas (UI)");
 						parentCanvas = canvasGameObj.AddComponent<Canvas>();
+						canvasGameObj.AddComponent<CanvasScaler>();
+						canvasGameObj.AddComponent<GraphicRaycaster>();
 						parentCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 					}
-					GameObject parentObj = new GameObject("Window");
+					GameObject parentObj = new GameObject("Windows");
 					parentObj.transform.SetParent(parentCanvas.transform);
 					_instance = parentObj.AddComponent<UIWindowManager>();
-					_instance = parentCanvas.gameObject.AddComponent<UIWindowManager>();
 				}
 			}
 			return _instance;
@@ -49,20 +51,15 @@ public class UIWindowManager : MonoBehaviour
 		SortingWindowUIOrder();
 	}
 
-	private void OnValidate()
-	{
-		SortingWindowUIOrder();
-	}
-
 	protected virtual void Update()
 	{
-		if (m_EscapeInputName.Equals("") == false && Input.GetButtonDown(this.m_EscapeInputName)) 
+		if (Input.GetButtonDown(this.m_EscapeInputName)) 
 		{
 			List<UIWindow> windows = UIWindow.GetWindows();
 			UIWindow lastWindow = null;
 			foreach (UIWindow window in windows)
 			{
-				if(!window.IsVisible)
+				if (!window.IsVisible || window.NotHideWithCancelInput)
 					continue;
 					
 				if (lastWindow == null)
@@ -90,7 +87,7 @@ public class UIWindowManager : MonoBehaviour
 		}
 	}
 
-	private void SortingWindowUIOrder()
+	public void SortingWindowUIOrder()
 	{
 		List<UIWindow> windows = UIWindow.GetWindows();
 		windows = windows.OrderBy(x => x.ID).ToList();
