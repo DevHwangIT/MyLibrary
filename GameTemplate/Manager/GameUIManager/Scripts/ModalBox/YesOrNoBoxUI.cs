@@ -23,15 +23,17 @@ public class YesOrNoBoxUI : ModalBoxUI
         infoText.text = info;
         
         yesButton.onClick.RemoveAllListeners();
+        yesButton.onClick.AddListener(new UnityAction(Hide));
         if (onYesButtonClick != null)
         {
             yesButton.onClick.AddListener(new UnityAction(onYesButtonClick));
         }
 
-        yesButton.onClick.RemoveAllListeners();
+        noButton.onClick.RemoveAllListeners();
+        noButton.onClick.AddListener(new UnityAction(Hide));
         if (onNoButtonClick != null)
         {
-            yesButton.onClick.AddListener(new UnityAction(onNoButtonClick));
+            noButton.onClick.AddListener(new UnityAction(onNoButtonClick));
         }
     }
 }

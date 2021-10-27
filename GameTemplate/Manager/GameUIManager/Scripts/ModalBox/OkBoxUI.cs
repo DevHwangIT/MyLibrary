@@ -22,6 +22,7 @@ public class OkBoxUI : ModalBoxUI
         infoText.text = info;
         
         okButton.onClick.RemoveAllListeners();
+        okButton.onClick.AddListener(new UnityAction(Hide));
         if (onOkButtonClick != null)
         {
             okButton.onClick.AddListener(new UnityAction(onOkButtonClick));

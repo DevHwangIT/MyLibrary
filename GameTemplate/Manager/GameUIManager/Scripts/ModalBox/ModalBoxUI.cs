@@ -20,6 +20,7 @@ public abstract class ModalBoxUI : MonoBehaviour
     protected void SetParent()
     {
         transform.SetParent(UIModalBoxManager.Instance.transform);
+        transform.localPosition = Vector3.zero;
     }
 
     public bool IsActive { get { return (this.enabled && this.gameObject.activeInHierarchy); } }
