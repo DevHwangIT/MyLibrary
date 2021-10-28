@@ -21,6 +21,7 @@ public abstract class ModalBoxUI : MonoBehaviour
     {
         transform.SetParent(UIModalBoxManager.Instance.transform);
         transform.localPosition = Vector3.zero;
+        transform.localScale = Vector3.one;
     }
 
     public bool IsActive { get { return (this.enabled && this.gameObject.activeInHierarchy); } }
@@ -45,6 +46,11 @@ public abstract class ModalBoxUI : MonoBehaviour
     {
         GetCanvasGroup.alpha = 0;
         GetCanvasGroup.blocksRaycasts = false;
+    }
+
+    public void SetSize(float width, float height)
+    {
+        this.transform.localPosition = new Vector3(width, height, 0);
     }
 
     private static List<ModalBoxUI> GetActiveModalBoxes()

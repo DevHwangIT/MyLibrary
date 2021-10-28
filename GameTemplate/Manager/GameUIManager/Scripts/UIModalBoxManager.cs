@@ -34,14 +34,4 @@ public class UIModalBoxManager : MonoBehaviour
         }
     }
     #endregion
-    
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }
