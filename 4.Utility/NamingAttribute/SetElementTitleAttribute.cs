@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetElementTitle : PropertyAttribute
+public class StringVariableToElementName : PropertyAttribute
 {
     public string Varname;
-    public SetElementTitle(string ElementTitleVar)
+    public StringVariableToElementName(string ElementTitleVar)
     {
         Varname = ElementTitleVar;
     }

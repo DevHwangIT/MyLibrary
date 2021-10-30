@@ -19,7 +19,7 @@ public class PlayerInput : MonoBehaviour
         public UnityEvent _event;
     }
     
-    [SetElementTitle("_eventName")]
+    [StringVariableToElementName("_eventName")]
     [SerializeField] private List<InputEvent> _inputEvents;
     private InputEventManager inputEventManager;
     

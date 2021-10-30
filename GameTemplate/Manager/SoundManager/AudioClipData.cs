@@ -15,7 +15,7 @@ public class Sound
 [CreateAssetMenu(fileName = "AudioClipData", menuName = "ScriptableObjects/MyLibrary/Manager/AudioClipData", order = 11)]
 public class AudioClipData : ScriptableObject
 {
-    [SetElementTitle("_name")]
+    [StringVariableToElementName("_name")]
     [SerializeField] private List<Sound> Sounds = new List<Sound>();
     public List<Sound> GetSounds => Sounds;
     public Sound GetSound(string clipName)

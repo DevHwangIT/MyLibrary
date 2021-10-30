@@ -19,7 +19,10 @@ namespace MyLibrary.Utility.Sample
 
     public class ElementNamingAttribueteSample : MonoBehaviour
     {
-        [SetElementTitle("_name"), SerializeField]
+        [StringVariableToElementName("_name"), SerializeField]
         private List<Animal> _animals = new List<Animal>();
+
+        [VariableName("테스트")]
+        [SerializeField] private string variable_Name;
     }
 }
