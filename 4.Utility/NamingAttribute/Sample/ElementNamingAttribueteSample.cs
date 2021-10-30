@@ -21,8 +21,8 @@ namespace MyLibrary.Utility.Sample
     {
         [StringVariableToElementName("_name"), SerializeField]
         private List<Animal> _animals = new List<Animal>();
-
-        [VariableName("테스트")]
-        [SerializeField] private string variable_Name;
+        
+        [VariableRenaming( "TestName" )]
+        [SerializeField] private string variableTest;
     }
 }
