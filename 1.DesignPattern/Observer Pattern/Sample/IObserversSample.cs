@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿
 namespace MyLibrary.DesignPattern.Sample
 {
     public interface IHpObserver : IObserver { void HpChangeNotify(int hp); }

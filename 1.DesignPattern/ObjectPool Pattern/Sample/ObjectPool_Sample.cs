@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using MyLibrary.DesignPattern;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace MyLibrary.DesignPattern.Sample

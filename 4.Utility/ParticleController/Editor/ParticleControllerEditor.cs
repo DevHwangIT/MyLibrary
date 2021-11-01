@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using MyLibrary.Utility;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace MyLibrary.Utility

@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
-using WebSocketSharp.Server;
 
 public class WaitingUI : ModalBoxUI
 {

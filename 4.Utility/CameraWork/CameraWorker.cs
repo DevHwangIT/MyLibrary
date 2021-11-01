@@ -1,11 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
-using JetBrains.Annotations;
-using MyLibrary.Utility;
-using Unity.Collections;
+﻿using Cinemachine;
 using UnityEngine;
 
 namespace MyLibrary.Utility
