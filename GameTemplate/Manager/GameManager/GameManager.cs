@@ -20,7 +20,6 @@ public partial class GameManager : MonoBehaviour
                     DontDestroyOnLoad(singletonObject);
                 }
             }
-
             return _instance;
         }
     }
