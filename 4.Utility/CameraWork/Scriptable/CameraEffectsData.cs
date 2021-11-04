@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MyLibrary.Utility
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "ScriptableObjects/MyLibrary/Camera ScriptableObject")]
     public class CameraEffectsData : ScriptableObject
     {
         public CameraFocusing Focusing = new CameraFocusing("Focusing");
