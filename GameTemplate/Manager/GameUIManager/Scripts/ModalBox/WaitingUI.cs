@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +38,7 @@ public class WaitingUI : ModalBoxUI
     
     private void Update()
     {
-        waitImageUI.transform.localRotation *= quaternion.Euler(Vector3.forward * waitingRotSpeed * Time.deltaTime);
+        waitImageUI.transform.localRotation *= Quaternion.Euler(Vector3.forward * waitingRotSpeed * Time.deltaTime);
 
         if (time < waitingInterval)
         {
