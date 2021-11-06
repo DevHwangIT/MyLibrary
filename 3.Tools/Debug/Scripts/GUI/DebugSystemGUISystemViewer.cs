@@ -1,7 +1,9 @@
 ﻿using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_2020_3
 using Unity.Profiling;
+#endif
 
 namespace MyLibrary.Tools
 {
@@ -9,6 +11,7 @@ namespace MyLibrary.Tools
     {
         private float deltaTime = 0.0f;
 
+#if UNITY_2020_3
         ProfilerRecorder totalMemoryRecorder;
         ProfilerRecorder systemMemoryRecorder;
         ProfilerRecorder gcMemoryRecorder;
@@ -16,9 +19,11 @@ namespace MyLibrary.Tools
         ProfilerRecorder setPassCallsRecorder;
         ProfilerRecorder drawCallsRecorder;
         ProfilerRecorder verticesRecorder;
+#endif
 
         void OnEnable()
         {
+#if UNITY_2020_3
             systemMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "System Used Memory");
             totalMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Total Used Memory");
 
@@ -28,10 +33,12 @@ namespace MyLibrary.Tools
             setPassCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "SetPass Calls Count");
             drawCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
             verticesRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Vertices Count");
+#endif
         }
 
         void OnDisable()
         {
+#if UNITY_2020_3
             totalMemoryRecorder.Dispose();
             systemMemoryRecorder.Dispose();
             gcMemoryRecorder.Dispose();
@@ -40,6 +47,7 @@ namespace MyLibrary.Tools
             setPassCallsRecorder.Dispose();
             drawCallsRecorder.Dispose();
             verticesRecorder.Dispose();
+#endif
         }
 
         void Update()
@@ -70,6 +78,7 @@ namespace MyLibrary.Tools
             StringBuilder systeminfoString = new StringBuilder();
             systeminfoString.Append(GetStringFPS());
 
+#if UNITY_2020_3
             if (setPassCallsRecorder.Valid)
                 systeminfoString.AppendLine($"SetPass Calls: {setPassCallsRecorder.LastValue}");
             if (drawCallsRecorder.Valid)
@@ -79,7 +88,9 @@ namespace MyLibrary.Tools
             systeminfoString.AppendLine($"GC Memory: {gcMemoryRecorder.LastValue / (1024 * 1024)} MB");
             systeminfoString.AppendLine($"System Memory: {systemMemoryRecorder.LastValue / (1024 * 1024)} MB");
             systeminfoString.AppendLine($"Total Memory: {totalMemoryRecorder.LastValue / (1024 * 1024)} MB");
-
+#else
+            systeminfoString.AppendLine("This is not a supported version. Use Unity 2020_03 or later version");
+#endif
             GUILayout.Label(systeminfoString.ToString());
 
 
