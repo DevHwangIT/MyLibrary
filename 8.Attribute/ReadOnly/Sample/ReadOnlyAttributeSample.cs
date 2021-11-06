@@ -6,13 +6,13 @@ namespace MyLibrary.Attribute.Sample
     {
         //Always you can't Modify
         [ReadOnlyInEditorAttribute(false), SerializeField]
-        private string name;
+        private string testName;
 
         [ReadOnlyInEditorAttribute(false), SerializeField]
-        private string info;
+        private string testInfo;
 
         //if Unity is Playing GameMode. you can't Modify
         [ReadOnlyInEditorAttribute(true), SerializeField]
-        private int Lv;
+        private int testLv;
     }
 }
