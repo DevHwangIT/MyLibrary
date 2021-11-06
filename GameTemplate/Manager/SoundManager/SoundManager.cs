@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using MyLibrary.DesignPattern;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -48,27 +44,9 @@ public class SoundManager : MonoBehaviour
     
     private GameObject audioClipDataParentTransform;
     private GameObject clipPoolingParentTransform;
-    
-    private AudioMixer audioMixer;
-    private AudioMixer GetMixer
-    {
-        get
-        {
-            if (audioMixer == null)
-            {
-                audioMixer =
-                    (AudioMixer) AssetDatabase.LoadAssetAtPath(
-                        "Assets/MyLibrary/GameTemplate/Manager/SoundManager/GameSound.mixer", typeof(AudioMixer));
-                if (audioMixer == null)
-                {
-                    Debug.LogError("Null Exception!! - Please Check the AudioMixer Path");
-                    return null;
-                }
-            }
 
-            return audioMixer;
-        }
-    }
+    [SerializeField] private AudioMixer audioMixer;
+    private AudioMixer GetMixer => audioMixer;
 
     public float Volum
     {

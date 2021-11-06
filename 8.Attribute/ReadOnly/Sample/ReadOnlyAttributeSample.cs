@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace MyLibrary.Attribute.Sample
@@ -6,13 +5,14 @@ namespace MyLibrary.Attribute.Sample
     public class ReadOnlyAttributeSample : MonoBehaviour
     {
         //Always you can't Modify
-        [ReadOnly(false), SerializeField]
+        [ReadOnlyInEditorAttribute(false), SerializeField]
         private string name;
-        [ReadOnly(false), SerializeField]
+
+        [ReadOnlyInEditorAttribute(false), SerializeField]
         private string info;
-        
+
         //if Unity is Playing GameMode. you can't Modify
-        [ReadOnly(true), SerializeField]
+        [ReadOnlyInEditorAttribute(true), SerializeField]
         private int Lv;
     }
 }

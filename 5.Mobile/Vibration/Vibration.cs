@@ -142,8 +142,6 @@ using System.Runtime.InteropServices;
             }
 #elif UNITY_IOS
         Handheld.Vibrate();
-#else
-                Handheld.Vibrate();
 #endif
 #endif
             }
@@ -170,8 +168,6 @@ using System.Runtime.InteropServices;
             }
 #elif UNITY_IOS
         Handheld.Vibrate();
-#else
-                Handheld.Vibrate();
 #endif
             }
         }
@@ -223,7 +219,9 @@ using System.Runtime.InteropServices;
         {
             if (Application.isMobilePlatform)
             {
-                Handheld.Vibrate();
+#if UNITY_ANDROID || UNITY_IOS
+                Handheld.Vibrate();       
+#endif
             }
         }
 

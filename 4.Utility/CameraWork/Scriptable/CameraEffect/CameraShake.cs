@@ -24,6 +24,7 @@ namespace MyLibrary.Utility
             _amount = 1f;
         }
 
+#if UNITY_EDITOR
         public override void DrawInspectorGUI()
         {
             isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
@@ -40,7 +41,8 @@ namespace MyLibrary.Utility
 
             _amount = EditorGUILayout.FloatField("Amount : ", _amount);
         }
- 
+#endif
+
         public override IEnumerator Action(Transform cam)
         {
             InitPosition = cam.transform.position;

@@ -12,9 +12,15 @@ namespace MyLibrary.Utility
         public Coroutine CamCoroutine;
         public bool isPlaying => CamCoroutine != null ? true : false;
         public float duration;
-        protected CameraEffect(string name) { _name = name;}
 
+        protected CameraEffect(string name)
+        {
+            _name = name;
+        }
+
+#if UNITY_EDITOR
         public abstract void DrawInspectorGUI();
+#endif
         public abstract IEnumerator Action(Transform cam);
         public abstract void Stop(Transform cam);
     }

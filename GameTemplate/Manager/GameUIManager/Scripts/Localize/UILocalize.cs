@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
-public enum TranslationCountries
-{
-    Korean,
-    English,
-    Japanese,
-    Chinese
-}
 
 [RequireComponent(typeof(Text)), DisallowMultipleComponent]
 public class UILocalize : MonoBehaviour
 {
     private Text _text;
     [SerializeField] private string _key = "";
+    [SerializeField] private UnityEngine.TextAsset textData;
 
     private static int _keyIndex = 0;
     private static Dictionary<string, int> _keyDictionary = new Dictionary<string, int>();
@@ -25,67 +17,39 @@ public class UILocalize : MonoBehaviour
     
     private void Awake()
     {
+        LoadData();
         _text = this.GetComponent<Text>();
         OnChange += SetText;
     }
     
     public static bool SetCountry(string Country)
     {
-        LoadData();
         if (_keyDictionary.TryGetValue(Country, out _keyIndex))
         {
             OnChange?.Invoke();
             return true;
         }
         else
-        {
             return false;
-        }
     }
     public static bool SetCountry(TranslationCountries Country)
     {
-        LoadData();
         if (_keyDictionary.TryGetValue(Country.ToString(), out _keyIndex))
         {
             OnChange?.Invoke();
             return true;
         }
         else
-        {
             return false;
-        }
     }
     
     public static string Get(string key)
     {
-        LoadData();
         string value;
         if (_localizeData[_keyIndex].TryGetValue(key, out value))
-        {
-            OnChange?.Invoke();
             return value;
-        }
         else
-        {
             return "";
-        }
-    }
-
-    public static string Get(TranslationCountries Country, string key)
-    {
-        LoadData();
-
-        SetCountry(Country);
-        string value;
-        if (_localizeData[_keyIndex].TryGetValue(key, out value))
-        {
-            OnChange?.Invoke();
-            return value;
-        }
-        else
-        {
-            return "";
-        }
     }
 
     private void SetText()
@@ -93,18 +57,17 @@ public class UILocalize : MonoBehaviour
         _text.text = Get(_key);
     }
 
-    private static void LoadData()
+    private void LoadData()
     {
         if (_localizeData == null) 
-            _localizeData = CSVRead("Assets/MyLibrary/8.Game Template/Manager/GameUIManager/Resources/Localize.csv");
+            _localizeData = CSVRead();
     }
     
-    private static List<Dictionary<string, string>> CSVRead(string file)
+    private List<Dictionary<string, string>> CSVRead()
     {
         var localizeDictionaryList = new List<Dictionary<string, string>>();
-        TextAsset data = AssetDatabase.LoadAssetAtPath<TextAsset>(file);
 
-        string firstLine = data.text.Split('\n')[0];
+        string firstLine = textData.text.Split('\n')[0];
         string[] KeyList = firstLine.Split(',');
         
         _keyDictionary.Clear();
@@ -114,7 +77,7 @@ public class UILocalize : MonoBehaviour
             _keyDictionary.Add(KeyList[i], i - 1);
         }
 
-        string[] lineText = data.text.Split('\n');
+        string[] lineText = textData.text.Split('\n');
         for (int index = 1; index < lineText.Length; index++)
         {
             string[] localizeText = lineText[index].Split(',');

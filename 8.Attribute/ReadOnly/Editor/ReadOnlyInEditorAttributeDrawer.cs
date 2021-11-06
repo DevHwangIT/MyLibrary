@@ -4,8 +4,8 @@ using UnityEditor;
 
 namespace MyLibrary.Attribute
 {
-    [CustomPropertyDrawer(typeof(ReadOnlyAttribute), true)]
-    public class ReadOnlyAttributeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ReadOnlyInEditorAttribute), true)]
+    public class ReadOnlyInEditorAttributeDrawer : PropertyDrawer
     {
         // Necessary since some properties tend to collapse smaller than their content
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -16,20 +16,9 @@ namespace MyLibrary.Attribute
         // Draw a disabled property field
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            GUI.enabled = !Application.isPlaying && ((ReadOnlyAttribute) attribute).runtimeOnly;
+            GUI.enabled = !Application.isPlaying && ((ReadOnlyInEditorAttribute) attribute).runtimeOnly;
             EditorGUI.PropertyField(position, property, label, true);
             GUI.enabled = true;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Field)]
-    public class ReadOnlyAttribute : PropertyAttribute
-    {
-        public readonly bool runtimeOnly;
-
-        public ReadOnlyAttribute(bool runtimeOnly = false)
-        {
-            this.runtimeOnly = runtimeOnly;
         }
     }
 }

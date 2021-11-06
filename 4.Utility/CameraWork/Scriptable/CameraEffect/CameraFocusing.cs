@@ -40,6 +40,7 @@ namespace MyLibrary.Utility
             _returnCurve = AnimationCurve.Linear(0, 0, 1, 1);
         }
 
+#if UNITY_EDITOR
         public override void DrawInspectorGUI()
         {
             isCompleteBackInitPos = EditorGUILayout.Toggle("return after work is completed?", isCompleteBackInitPos);
@@ -62,10 +63,12 @@ namespace MyLibrary.Utility
             TargetToCamDistance = EditorGUILayout.Vector3Field("Target To Camera Distance : ", TargetToCamDistance);
             FollowSpeed = EditorGUILayout.FloatField("Camera Follow Speed : ", FollowSpeed);
             ZoomDistance = EditorGUILayout.FloatField("Addition Zoom Distance : ", ZoomDistance);
-            StartPointMoveDuration = EditorGUILayout.FloatField("Delay from start to move destnation : ", StartPointMoveDuration);
+            StartPointMoveDuration =
+                EditorGUILayout.FloatField("Delay from start to move destnation : ", StartPointMoveDuration);
             _startCurve = EditorGUILayout.CurveField("Start Movement : ", _startCurve);
             _returnCurve = EditorGUILayout.CurveField("Return Movement : ", _returnCurve);
         }
+#endif
 
         public IEnumerator ZoomCam(float zoomDelay)
         {

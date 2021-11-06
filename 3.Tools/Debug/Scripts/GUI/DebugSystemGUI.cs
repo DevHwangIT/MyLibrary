@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Dynamic;
-using System.Text;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MyLibrary.Tools
 {
@@ -70,12 +63,6 @@ namespace MyLibrary.Tools
                     _systemGUIViewer = gameObject.AddComponent<DebugSystemGUISystemViewer>();
                 _systemGUIViewer.hideFlags = HideFlags.HideInInspector;
             }
-
-            if (_debugSystemData == null)
-                _debugSystemData = (DebugSystemDataScriptable) AssetDatabase.LoadAssetAtPath("Assets/MyLibrary/3.Tools/Debug/Resources/Data/DebugSystemData.asset", typeof(ScriptableObject));
-
-            if (_debugSystemGUIData == null)
-                _debugSystemGUIData = (DebugSystemGUIDataScriptable) AssetDatabase.LoadAssetAtPath("Assets/MyLibrary/3.Tools/Debug/Resources/Data/DebugSystemGUIData.asset", typeof(ScriptableObject));
 
             if (_debugSystemData == null || _debugSystemGUIData == null)
             {

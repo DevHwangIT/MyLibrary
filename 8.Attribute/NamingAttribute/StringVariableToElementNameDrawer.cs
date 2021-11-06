@@ -1,8 +1,11 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace MyLibrary.Attribute
 {
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(StringVariableToElementName))]
     public class StringVariableToElementNameDrawer : PropertyDrawer
     {
@@ -78,4 +81,5 @@ namespace MyLibrary.Attribute
             return "";
         }
     }
+#endif
 }

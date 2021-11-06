@@ -1,13 +1,46 @@
 ﻿using System.Text;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Profiling;
 
 namespace MyLibrary.Tools
 {
     public class DebugSystemGUISystemViewer : MonoBehaviour, IDebugSystemGUI
     {
         private float deltaTime = 0.0f;
+
+        ProfilerRecorder totalMemoryRecorder;
+        ProfilerRecorder systemMemoryRecorder;
+        ProfilerRecorder gcMemoryRecorder;
+        ProfilerRecorder mainThreadTimeRecorder;
+        ProfilerRecorder setPassCallsRecorder;
+        ProfilerRecorder drawCallsRecorder;
+        ProfilerRecorder verticesRecorder;
+
+        void OnEnable()
+        {
+            systemMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "System Used Memory");
+            totalMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Total Used Memory");
+
+            gcMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Reserved Memory");
+            mainThreadTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 15);
+
+            setPassCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "SetPass Calls Count");
+            drawCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
+            verticesRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Vertices Count");
+        }
+
+        void OnDisable()
+        {
+            totalMemoryRecorder.Dispose();
+            systemMemoryRecorder.Dispose();
+            gcMemoryRecorder.Dispose();
+            mainThreadTimeRecorder.Dispose();
+
+            setPassCallsRecorder.Dispose();
+            drawCallsRecorder.Dispose();
+            verticesRecorder.Dispose();
+        }
 
         void Update()
         {
@@ -36,16 +69,17 @@ namespace MyLibrary.Tools
             GUILayout.Label("- System Info", titleStyle);
             StringBuilder systeminfoString = new StringBuilder();
             systeminfoString.Append(GetStringFPS());
-            systeminfoString.Append("Draw Call : " + UnityStats.drawCalls + "\n");
-            systeminfoString.Append("Batches : " + UnityStats.batches + "\n");
-            systeminfoString.Append("Static Batches : " + UnityStats.staticBatches + " \t " +
-                                    "Dynamic Batches : " + UnityStats.dynamicBatches + "\n");
-            systeminfoString.Append("Tris: " + UnityStats.triangles + " \t " + "Verts: " + UnityStats.vertices +
-                                    "\n");
-            systeminfoString.Append("Screen: " + UnityStats.screenRes + "\n");
-            systeminfoString.Append("SetPass call: " + UnityStats.setPassCalls + " \t " + "Shadow caster: " +
-                                    UnityStats.shadowCasters + "\n");
-            systeminfoString.Append("Visible skinned meshes: " + UnityStats.visibleSkinnedMeshes + "\n");
+
+            if (setPassCallsRecorder.Valid)
+                systeminfoString.AppendLine($"SetPass Calls: {setPassCallsRecorder.LastValue}");
+            if (drawCallsRecorder.Valid)
+                systeminfoString.AppendLine($"Draw Calls: {drawCallsRecorder.LastValue}");
+            if (verticesRecorder.Valid)
+                systeminfoString.AppendLine($"Vertices: {verticesRecorder.LastValue}");
+            systeminfoString.AppendLine($"GC Memory: {gcMemoryRecorder.LastValue / (1024 * 1024)} MB");
+            systeminfoString.AppendLine($"System Memory: {systemMemoryRecorder.LastValue / (1024 * 1024)} MB");
+            systeminfoString.AppendLine($"Total Memory: {totalMemoryRecorder.LastValue / (1024 * 1024)} MB");
+
             GUILayout.Label(systeminfoString.ToString());
 
 
