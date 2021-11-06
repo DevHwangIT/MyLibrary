@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MyLibrary.Utility
 {
+    [CreateAssetMenu(menuName = "ScriptableObjects/MyLibrary/CameraWork/Camera Effects/Camera Focusing")]
     [System.Serializable]
     public class CameraFocusing : CameraEffect
     {
@@ -26,9 +27,9 @@ namespace MyLibrary.Utility
 
         #endregion
 
-        public CameraFocusing(string name) : base(name)
+        public CameraFocusing() : base()
         {
-            _name = name;
+            _name = "Camera Focusing";
             isCompleteBackInitPos = false;
             duration = 1f;
             isLookat = false;
@@ -79,38 +80,47 @@ namespace MyLibrary.Utility
 
         public override IEnumerator Action(Transform cam)
         {
-            InitPosition = cam.transform.position;
-            float time = 0f;
-            while (time < StartPointMoveDuration)
+            if (TargetTransform != null)
             {
-                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
-                cam.position = Vector3.Lerp(cam.position, t_destPos, _startCurve.Evaluate(time / StartPointMoveDuration));
-                time += Time.deltaTime;
-                yield return null;
-            }
-            time = 0;
-            while (time < duration)
-            {
-                if (isLookat)
-                    cam.LookAt(TargetTransform);
-                
-                Vector3 t_destPos = TargetTransform.position + TargetToCamDistance + (cam.forward * zoomAdditionDistance);
-                cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
-                time += Time.deltaTime;
-                yield return null;
-            }
-
-            if (isCompleteBackInitPos)
-            {
-                time = 0;
+                InitPosition = cam.transform.position;
+                float time = 0f;
                 while (time < StartPointMoveDuration)
                 {
-                    cam.position = Vector3.Lerp(cam.position, InitPosition, _startCurve.Evaluate(time / StartPointMoveDuration));
+                    Vector3 t_destPos = TargetTransform.position + TargetToCamDistance +
+                                        (cam.forward * zoomAdditionDistance);
+                    cam.position = Vector3.Lerp(cam.position, t_destPos,
+                        _startCurve.Evaluate(time / StartPointMoveDuration));
                     time += Time.deltaTime;
                     yield return null;
                 }
+
+                time = 0;
+                while (time < duration)
+                {
+                    if (isLookat)
+                        cam.LookAt(TargetTransform);
+
+                    Vector3 t_destPos = TargetTransform.position + TargetToCamDistance +
+                                        (cam.forward * zoomAdditionDistance);
+                    cam.position = Vector3.Lerp(cam.position, t_destPos, FollowSpeed * Time.deltaTime);
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+
+                if (isCompleteBackInitPos)
+                {
+                    time = 0;
+                    while (time < StartPointMoveDuration)
+                    {
+                        cam.position = Vector3.Lerp(cam.position, InitPosition,
+                            _startCurve.Evaluate(time / StartPointMoveDuration));
+                        time += Time.deltaTime;
+                        yield return null;
+                    }
+                }
             }
-            
+            else
+                Debug.LogError("Error - Target Transform Is Null in Member Field");
             CamCoroutine = null;
         }
 

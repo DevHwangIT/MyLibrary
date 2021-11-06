@@ -23,9 +23,9 @@ namespace MyLibrary.Utility
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(5f);
 
-            List<CameraEffect> effects = camWorker.EffectsData.GetArrayEffect();
+            CameraEffect[] effects = camWorker.EffectsData.GetArrayEffect;
             
-            for (int index = 0; index < effects.Count; index++)
+            for (int index = 0; index < effects.Length; index++)
             {
                 EditorGUILayout.Space(2.5f);
 

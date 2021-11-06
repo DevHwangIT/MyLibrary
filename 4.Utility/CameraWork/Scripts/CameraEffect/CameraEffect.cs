@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MyLibrary.Utility
 {
     [System.Serializable]
-    public abstract class CameraEffect
+    public abstract class CameraEffect : ScriptableObject
     {
         protected string _name = "Camera Effect";
         public string ClassName => _name;
@@ -12,11 +12,6 @@ namespace MyLibrary.Utility
         public Coroutine CamCoroutine;
         public bool isPlaying => CamCoroutine != null ? true : false;
         public float duration;
-
-        protected CameraEffect(string name)
-        {
-            _name = name;
-        }
 
 #if UNITY_EDITOR
         public abstract void DrawInspectorGUI();

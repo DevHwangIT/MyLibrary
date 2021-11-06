@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d1300f219c72e4ba4ea8b503bf14d8, type: 3}
   m_Name: BGMClipData
   m_EditorClassIdentifier: 
-  Sounds: []
+  Sounds:
+  - _name: Title
+    _clip: {fileID: 8300000, guid: 323926b58eea1e54f90ffd73249e9e7c, type: 3}
+  - _name: Main
+    _clip: {fileID: 8300000, guid: e5f28f92612f1064ebab83fd4c69856f, type: 3}

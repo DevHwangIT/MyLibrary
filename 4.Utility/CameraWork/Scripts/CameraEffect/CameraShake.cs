@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace MyLibrary.Utility
 {
+    [CreateAssetMenu(menuName = "ScriptableObjects/MyLibrary/CameraWork/Camera Effects/Camera Shake")]
     [System.Serializable]
     public class CameraShake : CameraEffect
     {
@@ -17,9 +18,9 @@ namespace MyLibrary.Utility
         private bool isInfinity = false;
         #endregion
 
-        public CameraShake(string name) : base(name)
+        public CameraShake() : base()
         {
-            _name = name;
+            _name = "Camera Shake";
             duration = 1f;
             _amount = 1f;
         }

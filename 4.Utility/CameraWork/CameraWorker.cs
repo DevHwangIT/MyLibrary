@@ -66,6 +66,10 @@ namespace MyLibrary.Utility
                     }
                 };
             }
+            else
+            {
+                Debug.LogWarning("Warring - Main Camera Tag or Main Camera Object is Null");
+            }
 #endif
         }
         
