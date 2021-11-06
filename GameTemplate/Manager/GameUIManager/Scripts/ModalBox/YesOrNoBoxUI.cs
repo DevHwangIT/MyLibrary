@@ -15,8 +15,9 @@ public class YesOrNoBoxUI : ModalBoxUI
         base.Awake();
     }
     
-    public new void Initialize(string title, string info, Action onYesButtonClick = null, Action onNoButtonClick = null)
+    public void Initialize(string title, string info, Action onYesButtonClick = null, Action onNoButtonClick = null)
     {
+        base.Initialize();
         titleText.text = title;
         infoText.text = info;
         

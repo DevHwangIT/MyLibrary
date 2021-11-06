@@ -23,8 +23,9 @@ public class WaitingUI : ModalBoxUI
         transform.SetAsLastSibling();
     }
     
-    public new void Initialize(string info)
+    public void Initialize(string info)
     {
+        base.Initialize();
         time = 0f;
         DotCount = 1;
         SetText(info);

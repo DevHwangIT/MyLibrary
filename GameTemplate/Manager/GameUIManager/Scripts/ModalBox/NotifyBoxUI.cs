@@ -12,8 +12,9 @@ public class NotifyBoxUI : ModalBoxUI
         base.Awake();
     }
     
-    public new void Initialize(string title, string info, float duration)
+    public void Initialize(string title, string info, float duration)
     {
+        base.Initialize();
         titleText.text = title;
         infoText.text = info;
         showDuration = duration;

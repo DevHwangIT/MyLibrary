@@ -6,10 +6,10 @@ namespace MyLibrary.Utility
     {
         public static Vector2 Position()
         {
-#if UNITY_EDITOR
-            return Input.mousePosition;
-#endif
+#if UNITY_IOS || UNITY_ANDROID
             return Input.GetTouch(0).position;
+#endif
+            return Input.mousePosition;
         }
 
         public static bool StartInput()
