@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7256940780148119457}
   - component: {fileID: 6087984294502719537}
   - component: {fileID: 7190966776833595258}
-  - component: {fileID: 7309254596742497610}
   m_Layer: 0
   m_Name: System Managers [SingleTon]
   m_TagString: Untagged
@@ -87,15 +86,4 @@ MonoBehaviour:
   _bgmClipData: {fileID: 11400000, guid: 2c9440472418c5a40b2672bcf82c050e, type: 2}
   _sfxClipData: {fileID: 11400000, guid: 275e3b429efe9f7499a48c362b5f1721, type: 2}
   createAudioPrefabCount: 10
---- !u!114 &7309254596742497610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7757411340775676003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc8df6578dd277447a18a0529c9fc310, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: b21e54a9e52d03f4cb1215c77ae17d50, type: 2}
