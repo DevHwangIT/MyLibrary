@@ -2,7 +2,7 @@
 using UnityEditor;
 public class FindMissingScripts : EditorWindow
 {
-    [MenuItem("MyLibrary/Tools/FindMissingScripts")]
+    [MenuItem("MyLibrary/Tools/Create FindMissingScript Window")]
     public static void ShowWindow()
     {
         EditorWindow.GetWindow(typeof(FindMissingScripts));
