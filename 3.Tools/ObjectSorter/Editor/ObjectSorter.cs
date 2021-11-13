@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
 
 public class ObjectSorter : EditorWindow
@@ -24,6 +25,9 @@ public class ObjectSorter : EditorWindow
 
         EditorGUILayout.LabelField("- Slected Object List");
         GameObject[] selectedObjects = Selection.gameObjects;
+
+        Array.Sort(selectedObjects, (a, b) => (a.transform.GetSiblingIndex() < b.transform.GetSiblingIndex()) ? -1 : 1);
+        
         foreach (var selectedObject in selectedObjects)
         {
             GUILayout.Label(selectedObject.gameObject.name);
@@ -33,6 +37,7 @@ public class ObjectSorter : EditorWindow
     private static void SortInSelected()
     {
         GameObject[] selectedObjects = Selection.gameObjects;
+        Array.Sort(selectedObjects, (a, b) => (a.transform.GetSiblingIndex() < b.transform.GetSiblingIndex()) ? -1 : 1);
         for (int index = 0; index < selectedObjects.Length; index++)
         {
             selectedObjects[index].transform.localPosition = objStartingPosition + objSortInterval * index;
