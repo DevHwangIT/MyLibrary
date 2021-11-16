@@ -5,25 +5,25 @@ namespace MyLibrary.DesignPattern.Sample
 //상태 정의
     public partial class FSMExampleCharacter : MonoBehaviour
     {
-        public class IdleState : FSM_State<FSMExampleCharacter>
+        public class IdleState : FSMType<FSMExampleCharacter>
         {
             public override void Enter(FSMExampleCharacter body)
             {
-                base.Enter(body);
+                
             }
 
             public override void Update(FSMExampleCharacter body)
             {
-                base.Update(body);
+                
             }
 
             public override void Exit(FSMExampleCharacter body)
             {
-                base.Exit(body);
+                
             }
         }
 
-        public class RunState : FSM_State<FSMExampleCharacter>
+        public class RunState : FSMType<FSMExampleCharacter>
         {
             public override void Enter(FSMExampleCharacter body)
             {
@@ -32,7 +32,7 @@ namespace MyLibrary.DesignPattern.Sample
 
             public override void Update(FSMExampleCharacter body)
             {
-                base.Update(body);
+                
             }
 
             public override void Exit(FSMExampleCharacter body)
@@ -41,7 +41,7 @@ namespace MyLibrary.DesignPattern.Sample
             }
         }
 
-        public class WalkState : FSM_State<FSMExampleCharacter>
+        public class WalkState : FSMType<FSMExampleCharacter>
         {
             public override void Enter(FSMExampleCharacter body)
             {
@@ -50,7 +50,7 @@ namespace MyLibrary.DesignPattern.Sample
 
             public override void Update(FSMExampleCharacter body)
             {
-                base.Update(body);
+                
             }
 
             public override void Exit(FSMExampleCharacter body)
@@ -59,11 +59,11 @@ namespace MyLibrary.DesignPattern.Sample
             }
         }
         
-        public class JumpState : FSM_State<FSMExampleCharacter>
+        public class JumpState : FSMType<FSMExampleCharacter>
         {
             public override void Enter(FSMExampleCharacter body)
             {
-                base.Enter(body);
+                
             }
 
             public override void Update(FSMExampleCharacter body)
@@ -73,7 +73,7 @@ namespace MyLibrary.DesignPattern.Sample
 
             public override void Exit(FSMExampleCharacter body)
             {
-                base.Exit(body);
+                
             }
         }
     }

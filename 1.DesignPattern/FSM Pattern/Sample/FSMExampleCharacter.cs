@@ -6,13 +6,13 @@ namespace MyLibrary.DesignPattern.Sample
     {
         [SerializeField] private Animator _animator;
         
-        public FSM_State<FSMExampleCharacter> ChangeFSM
+        public FSMType<FSMExampleCharacter> ChangeFSM
         {
             set { nextFSMState = value; }
         }
 
-        private FSM_State<FSMExampleCharacter> currentFSMState;
-        private FSM_State<FSMExampleCharacter> nextFSMState;
+        private FSMType<FSMExampleCharacter> currentFSMState;
+        private FSMType<FSMExampleCharacter> nextFSMState;
 
         protected void Awake()
         {
