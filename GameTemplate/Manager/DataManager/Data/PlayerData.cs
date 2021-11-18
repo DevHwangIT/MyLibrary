@@ -1,6 +1,7 @@
 ﻿public partial class PlayerData
 {
-    private int _lv;
-    private float _exp;
-    private long _money;
+    /*
+     * Player Data 관리
+     *  Nick Name, Level, 게임마다의 고유 표기 데이터 등의 플레이어 데이터.
+    */
 }
