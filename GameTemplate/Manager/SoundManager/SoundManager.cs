@@ -191,7 +191,19 @@ public class SoundManager : MonoBehaviour
             _bgmAudioSource.Play();
         }
     }
-
+    
+    public void ResumePlayBGMSound()
+    {
+        if (_bgmAudioSource.clip != null)
+            _bgmAudioSource.Play();
+    }
+    
+    public void PauseBGMSound()
+    {
+        if (_bgmAudioSource.isPlaying)
+            _bgmAudioSource.Pause();
+    }
+    
     public void PlayVFXSound(string clipName)
     {
         Sound sound = _sfxClipData.GetSound(clipName);

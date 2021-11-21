@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: BGMClipData
   m_EditorClassIdentifier: 
   Sounds:
-  - _name: Title
+  - _name: LogIn
+    _clip: {fileID: 8300000, guid: 7e62e72557f6b9a4291b544892aef0bf, type: 3}
+  - _name: Lobby
     _clip: {fileID: 8300000, guid: 323926b58eea1e54f90ffd73249e9e7c, type: 3}
-  - _name: Main
-    _clip: {fileID: 8300000, guid: e5f28f92612f1064ebab83fd4c69856f, type: 3}
+  - _name: InGame
+    _clip: {fileID: 8300000, guid: 5fcaaf96db0d3f44593584493e1f7e4a, type: 3}
