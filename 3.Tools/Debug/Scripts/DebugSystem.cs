@@ -56,6 +56,7 @@ namespace MyLibrary.Tools
 
         public void Awake()
         {
+            DontDestroyOnLoad(this.gameObject);
             DebugSystemDebug.Run();
         }
     }

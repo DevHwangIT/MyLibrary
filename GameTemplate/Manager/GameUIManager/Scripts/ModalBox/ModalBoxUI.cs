@@ -54,8 +54,27 @@ public abstract class ModalBoxUI : MonoBehaviour
     private static List<ModalBoxUI> GetActiveModalBoxes()
     {
         List<ModalBoxUI> modalBoxes = new List<ModalBoxUI>();
-        modalBoxes.AddRange(FindObjectsOfType<ModalBoxUI>());
+        modalBoxes.AddRange(FindObjectsOfType<ModalBoxUI>(true));
         return modalBoxes;
+    }
+
+    public static T GetModalBox<T>() where T : ModalBoxUI
+    {
+        foreach (var modalBoxUI in GetActiveModalBoxes())
+            if (modalBoxUI.GetType() == typeof(T))
+                return (T) modalBoxUI;
+        return null;
+    }
+    
+    public static List<T> GetModalBoxes<T>() where T : ModalBoxUI
+    {
+        List<T> modalBoxesUI = new List<T>();
+        foreach (var modalBoxUI in GetActiveModalBoxes())
+        {
+            if (modalBoxUI.GetType() == typeof(T))
+                modalBoxesUI.Add((T) modalBoxUI);
+        }
+        return modalBoxesUI;
     }
 
     public static T GetNotActiveModalBoxInHierarchyView<T>() where T : ModalBoxUI

@@ -8,7 +8,7 @@ public class OkBoxUI : ModalBoxUI
     [SerializeField] private Text titleText;
     [SerializeField] private Text infoText;
     [SerializeField] private Button okButton;
-    
+
     new void Awake()
     {
         base.Awake();
@@ -26,5 +26,11 @@ public class OkBoxUI : ModalBoxUI
         {
             okButton.onClick.AddListener(new UnityAction(onOkButtonClick));
         }
+    }
+
+    public void AddListener(UnityAction okAction)
+    {
+        if (okAction != null)
+            okButton.onClick.AddListener(okAction);
     }
 }

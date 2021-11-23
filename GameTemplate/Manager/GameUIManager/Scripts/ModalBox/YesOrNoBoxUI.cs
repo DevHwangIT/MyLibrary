@@ -35,4 +35,13 @@ public class YesOrNoBoxUI : ModalBoxUI
             noButton.onClick.AddListener(new UnityAction(onNoButtonClick));
         }
     }
+    
+    public void AddListener(UnityAction yesAction, UnityAction noAction)
+    {
+        if (yesAction != null)
+            yesButton.onClick.AddListener(yesAction);
+        
+        if (noAction != null)
+            noButton.onClick.AddListener(noAction);
+    }
 }
