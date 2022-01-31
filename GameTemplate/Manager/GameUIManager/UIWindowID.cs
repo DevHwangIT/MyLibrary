@@ -15,6 +15,18 @@ public abstract class Enumeration : IComparable
 public partial class UIWindowID : Enumeration
 {
     public UIWindowID(int priority, string name) : base(priority, name) { }
+    public static UIWindowID[] GetAll
+    {
+        get
+        {
+            return typeof(UIWindowID).GetFields(BindingFlags.Public |
+                                                BindingFlags.Static |
+                                                BindingFlags.DeclaredOnly)
+                .Select(f => f.GetValue(null))
+                .Cast<UIWindowID>()
+                .ToArray();
+        }
+    }
 
     //Index is Draw Order
     public static UIWindowID None = new UIWindowID(0, "None");
