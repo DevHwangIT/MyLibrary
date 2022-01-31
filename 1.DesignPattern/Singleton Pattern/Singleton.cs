@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using MyLibrary.Attribute;
+using UnityEngine;
 
 namespace MyLibrary.DesignPattern
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T _instance;
-
         public static T Instance
         {
             get
@@ -19,9 +20,17 @@ namespace MyLibrary.DesignPattern
                         _instance = singletonObject.AddComponent<T>();
                         DontDestroyOnLoad(singletonObject);
                     }
+                    else
+                        Destroy(_instance.gameObject);
                 }
                 return _instance;
             }
+        }
+        
+        protected virtual void Awake()
+        {
+            if (_instance != this)
+                Destroy(this.gameObject);
         }
     }
 }

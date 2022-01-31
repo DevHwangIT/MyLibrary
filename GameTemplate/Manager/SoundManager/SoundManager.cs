@@ -1,34 +1,10 @@
 ﻿using System.Collections.Generic;
+using MyLibrary.DesignPattern;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : Singleton<SoundManager>
 {
-    #region Singleton
-
-    private static SoundManager _instance;
-
-    public static SoundManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = (SoundManager) FindObjectOfType(typeof(SoundManager));
-                if (_instance == null)
-                {
-                    GameObject singletonObject = new GameObject($"{typeof(SoundManager)} (Singleton)");
-                    _instance = singletonObject.AddComponent<SoundManager>();
-                    DontDestroyOnLoad(singletonObject);
-                }
-            }
-
-            return _instance;
-        }
-    }
-
-    #endregion
-
     [Header("Scriptable Object Data")]
     [SerializeField] private AudioClipData _bgmClipData;
     [SerializeField] private AudioClipData _sfxClipData;
@@ -226,5 +202,32 @@ public class SoundManager : MonoBehaviour
                 objAudiosource.Play();
             }
         }
+    }
+
+    public void Play3DVFXSound(string clipName, Vector3 position, AudioSource AudioSource3D = null)
+    {
+        Debug.Log("TODO : 아직 미구현된 기능. 3D 사운드에 대한 관리 고려 중.");
+        // Sound sound = _sfxClipData.GetSound(clipName);
+        // if (sound != null)
+        // {
+        //     List<GameObject> cList = null;
+        //     if (clipDictionary.TryGetValue(sound.GetClip, out cList))
+        //     {
+        //         foreach (var clipObj in cList)
+        //         {
+        //             AudioSource clipSource = clipObj.GetComponent<AudioSource>();
+        //             if (clipSource.isPlaying == false)
+        //             {
+        //                 clipSource.transform.position = position;
+        //                 clipSource.Play();
+        //                 return;
+        //             }
+        //         }
+        //         AudioSource objAudiosource = CreateClipGameObject(sound.GetName, sound.GetClip).GetComponent<AudioSource>();
+        //         clipDictionary[sound.GetClip].Add(objAudiosource.gameObject);
+        //         objAudiosource.transform.position = position;
+        //         objAudiosource.Play();
+        //     }
+        // }
     }
 }

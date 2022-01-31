@@ -1,31 +1,9 @@
-﻿using UnityEngine;
+﻿using MyLibrary.DesignPattern;
+using UnityEngine;
 using MyLibrary.Manager;
 
-public partial class GameManager : MonoBehaviour
+public partial class GameManager : Singleton<GameManager>
 {
-    #region Singleton
-
-    private static GameManager _instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = (GameManager) FindObjectOfType(typeof(GameManager));
-                if (_instance == null)
-                {
-                    GameObject singletonObject = new GameObject($"{typeof(GameManager)} (Singleton)");
-                    _instance = singletonObject.AddComponent<GameManager>();
-                    DontDestroyOnLoad(singletonObject);
-                }
-            }
-            return _instance;
-        }
-    }
-
-    #endregion
-    
     private GamePlayState _gameStates;
     private GamePlayResult _inGameState;
 

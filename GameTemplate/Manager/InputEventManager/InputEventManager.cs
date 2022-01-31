@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MyLibrary.DesignPattern;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,29 +11,8 @@ public enum keyEventType
 }
 
 [DisallowMultipleComponent, ExecuteInEditMode, RequireComponent(typeof(PlayerInput))]
-public class InputEventManager : MonoBehaviour
+public class InputEventManager : Singleton<InputEventManager>
 {
-    #region Singleton
-    private static InputEventManager _instance;
-    public static InputEventManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = (InputEventManager) FindObjectOfType(typeof(InputEventManager));
-                if (_instance == null)
-                {
-                    GameObject singletonObject = new GameObject($"{typeof(InputEventManager)} (Singleton)");
-                    _instance = singletonObject.AddComponent<InputEventManager>();
-                    DontDestroyOnLoad(singletonObject);
-                }
-            }
-            return _instance;
-        }
-    }
-    #endregion
-    
     private int[] keyCodeArray;
     private static Dictionary<KeyCode, UnityEvent> keyDownEvent = new Dictionary<KeyCode, UnityEvent>();
     private static Dictionary<KeyCode, UnityEvent> keyEvent = new Dictionary<KeyCode, UnityEvent>();

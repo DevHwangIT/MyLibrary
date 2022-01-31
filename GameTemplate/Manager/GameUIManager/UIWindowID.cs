@@ -1,12 +1,22 @@
+using System;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
 
-/*
- * ReadMe
- *  if you want to use this UIWindow Template. you must this UIWindow.cs file move to out MyLibrary directory
- */
-
-public enum UIWindowID : int
+public abstract class Enumeration : IComparable
 {
+    public string Name { get; internal set; }
+    public int Priority { get; internal set; }
+    public override string ToString() => Name;
+    protected Enumeration(int priority, string name) => (Priority, Name) = (priority, name);
+    public int CompareTo(object other) => Priority.CompareTo(((Enumeration)other).Priority);
+}
+
+public partial class UIWindowID : Enumeration
+{
+    public UIWindowID(int priority, string name) : base(priority, name) { }
+
     //Index is Draw Order
-    None = 0,
-    GameMenu
+    public static UIWindowID None = new UIWindowID(0, "None");
+    public static UIWindowID GameMenu = new UIWindowID(1, "GameMenu");
 }

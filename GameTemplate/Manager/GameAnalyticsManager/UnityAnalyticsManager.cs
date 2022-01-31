@@ -1,34 +1,10 @@
 ﻿using System.Collections.Generic;
+using MyLibrary.DesignPattern;
 using UnityEngine;
 using UnityEngine.Analytics;
 
-public class UnityAnalyticsManager : MonoBehaviour
+public class UnityAnalyticsManager : Singleton<UnityAnalyticsManager>
 {
-    #region Singleton
-
-    private static UnityAnalyticsManager _instance;
-
-    public static UnityAnalyticsManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = (UnityAnalyticsManager) FindObjectOfType(typeof(UnityAnalyticsManager));
-                if (_instance == null)
-                {
-                    GameObject singletonObject = new GameObject($"{typeof(UnityAnalyticsManager)} (Singleton)");
-                    _instance = singletonObject.AddComponent<UnityAnalyticsManager>();
-                    DontDestroyOnLoad(singletonObject);
-                }
-            }
-
-            return _instance;
-        }
-    }
-
-    #endregion
-
     private bool quitFlag = false;
 
     private void Awake()

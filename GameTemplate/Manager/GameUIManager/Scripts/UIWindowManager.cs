@@ -65,7 +65,7 @@ public class UIWindowManager : MonoBehaviour
 					lastWindow = window;
 				else
 				{
-					if (lastWindow.ID < window.ID)
+					if (lastWindow.ID.Priority < window.ID.Priority)
 						lastWindow = window;
 					else
 					{

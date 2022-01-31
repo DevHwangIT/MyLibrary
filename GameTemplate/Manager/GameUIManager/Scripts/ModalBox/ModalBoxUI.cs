@@ -54,7 +54,7 @@ public abstract class ModalBoxUI : MonoBehaviour
     private static List<ModalBoxUI> GetActiveModalBoxes()
     {
         List<ModalBoxUI> modalBoxes = new List<ModalBoxUI>();
-        modalBoxes.AddRange(FindObjectsOfType<ModalBoxUI>(true));
+        modalBoxes.AddRange(FindObjectsOfType<ModalBoxUI>());
         return modalBoxes;
     }
 
