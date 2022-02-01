@@ -20,8 +20,6 @@ namespace MyLibrary.DesignPattern
                         _instance = singletonObject.AddComponent<T>();
                         DontDestroyOnLoad(singletonObject);
                     }
-                    else
-                        Destroy(_instance.gameObject);
                 }
                 return _instance;
             }
