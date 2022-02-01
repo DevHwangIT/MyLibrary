@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d1300f219c72e4ba4ea8b503bf14d8, type: 3}
   m_Name: SFXClipData
   m_EditorClassIdentifier: 
-  Sounds: []
+  Sounds:
+  - _name: 
+    _clip: {fileID: 0}

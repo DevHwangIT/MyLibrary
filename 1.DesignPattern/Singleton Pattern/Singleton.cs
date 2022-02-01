@@ -29,7 +29,7 @@ namespace MyLibrary.DesignPattern
         
         protected virtual void Awake()
         {
-            if (_instance != this)
+            if (Instance != this)
                 Destroy(this.gameObject);
         }
     }

@@ -11,7 +11,7 @@ public class SoundManager : Singleton<SoundManager>
     [Header("How many audio clips do you make into objects for pooling? ")]
     [SerializeField] private int createAudioPrefabCount = 10;
     
-    private Dictionary<AudioClip, List<GameObject>> clipDictionary = new Dictionary<AudioClip, List<GameObject>>();
+    private Dictionary<string, List<GameObject>> clipDictionary = new Dictionary<string, List<GameObject>>();
     private AudioSource _bgmAudioSource;
     
     private const float MuteVolume = -80;
@@ -134,12 +134,12 @@ public class SoundManager : Singleton<SoundManager>
         
         foreach (var sound in _sfxClipData.GetSounds)
         {
-            if (clipDictionary.ContainsKey(sound.GetClip) == false)
-                clipDictionary.Add(sound.GetClip, new List<GameObject>());
+            if (clipDictionary.ContainsKey(sound.GetName) == false)
+                clipDictionary.Add(sound.GetName, new List<GameObject>());
             
             for (int i = 0; i < createAudioPrefabCount; i++)
             {
-                clipDictionary[sound.GetClip].Add(CreateClipGameObject(sound.GetName, sound.GetClip));
+                clipDictionary[sound.GetName].Add(CreateClipGameObject(sound.GetName, sound.GetClip));
             }
         }
         _bgmAudioSource.playOnAwake = true;
@@ -186,7 +186,7 @@ public class SoundManager : Singleton<SoundManager>
         if (sound != null)
         {
             List<GameObject> cList = null;
-            if (clipDictionary.TryGetValue(sound.GetClip, out cList))
+            if (clipDictionary.TryGetValue(sound.GetName, out cList))
             {
                 foreach (var clipObj in cList)
                 {
@@ -198,7 +198,7 @@ public class SoundManager : Singleton<SoundManager>
                     }
                 }
                 AudioSource objAudiosource = CreateClipGameObject(sound.GetName, sound.GetClip).GetComponent<AudioSource>();
-                clipDictionary[sound.GetClip].Add(objAudiosource.gameObject);
+                clipDictionary[sound.GetName].Add(objAudiosource.gameObject);
                 objAudiosource.Play();
             }
         }
