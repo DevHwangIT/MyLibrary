@@ -18,8 +18,8 @@ namespace MyLibrary.DesignPattern
                     {
                         GameObject singletonObject = new GameObject($"{typeof(T)} (Singleton)");
                         _instance = singletonObject.AddComponent<T>();
-                        DontDestroyOnLoad(singletonObject);
                     }
+                    DontDestroyOnLoad(_instance.gameObject);
                 }
                 return _instance;
             }
