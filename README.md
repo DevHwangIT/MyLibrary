@@ -89,10 +89,10 @@ In the case of Assets / MyLibrary / GameTemplate, it is a folder that implements
 <h4> [Path] Assets / MyLibrary / GameTemplate </h4>
 - Unity에서 자주 사용되는 Manager 관련 클래스 및 기능이 구현되어 있는 디렉토리입니다. <br>
   
-[GameTemplate에 관한 중요한 내용은 경고를 참조하세요.](https://github.com/DevHwangIT/MyLibrary/edit/main/README.md#--warning--) <br> 
+[GameTemplate에 관한 중요한 내용은 경고를 참조하세요.](https://github.com/DevHwangIT/MyLibrary#--warning--) <br> 
   
   ( This is the directory where Manager-related classes and functions frequently used in Unity are implemented. )   
-[See the warnings for important information about GameTemplates.](https://github.com/DevHwangIT/MyLibrary/edit/main/README.md#--warning--)
+[See the warnings for important information about GameTemplates.](https://github.com/DevHwangIT/MyLibrary#--warning--)
   
 </div>
 </details>
