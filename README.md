@@ -40,7 +40,8 @@ In the case of Assets / MyLibrary / GameTemplate, it is a folder that implements
 <summary><h3> 업데이트 내역 ( History Detail )</h3></summary>
 <div markdown="1">
   
-2022.06.20 Write ReadMe documents
+2022.06.20 Write ReadMe documents <br>
+2022.07.20 Add scriptable singleton function <br>
  
 </div>
 </details>
@@ -59,31 +60,31 @@ In the case of Assets / MyLibrary / GameTemplate, it is a folder that implements
   ( A directory containing functions related to mathematical operations available in Unity. )
   
 <h4> [Path] Assets / MyLibrary / 3.Tools </h4>
-- 유니티에서 사용할 수 있는 게임 개발을 위한 편리한 기능과 도구가 있는 디렉토리입니다.
+- 유니티에서 사용할 수 있는 게임 개발을 위한 편리한 기능과 도구가 있는 디렉토리입니다.<br>
   ( A directory with convenient features and tools for game development available in Unity. )
 
 <h4> [Path] Assets / MyLibrary / 4.Utility </h4>
-- 유니티에서 자주 사용되지만, 구현되지 않은 게임 개발을 위한 함수들이 구현되어 있는 디렉토리입니다.
+- 유니티에서 자주 사용되지만, 구현되지 않은 게임 개발을 위한 함수들이 구현되어 있는 디렉토리입니다.<br>
   ( A directory where features for game development that are frequently used but not implemented in Unity are implemented. )
 
 <h4> [Path] Assets / MyLibrary / 5.Mobile </h4>
-- 유니티에서 모바일 빌드시에 사용할 수 있는 기능들이 모여있는 디렉토리입니다.
+- 유니티에서 모바일 빌드시에 사용할 수 있는 기능들이 모여있는 디렉토리입니다.<br>
   ( A directory is a collection of features that can be used when building mobile in Unity. )
 
 <h4> [Path] Assets / MyLibrary / 6.Network </h4>
-- 유니티에서 사용할 수 있는 네트워크 및 통신을 위한 기능이 구현되어 있는 디렉토리입니다.
+- 유니티에서 사용할 수 있는 네트워크 및 통신을 위한 기능이 구현되어 있는 디렉토리입니다.<br>
   ( A directory that implements functions for networking and communication that can be used in Unity. )
 
 <h4> [Path] Assets / MyLibrary / 7.Shader </h4>
-- 유니티에서 사용할 수 있는 쉐이더 기능을 위한 디렉토리입니다.
+- 유니티에서 사용할 수 있는 쉐이더 기능을 위한 디렉토리입니다.<br>
   ( A Directory for shader features available in Unity. )
 
 <h4> [Path] Assets / MyLibrary / 8.Attribute </h4>
-- 유니티 에디터에서 사용할 수 있는 애트리뷰트 기능을 구현해 놓은 디렉토리입니다.
+- 유니티 에디터에서 사용할 수 있는 애트리뷰트 기능을 구현해 놓은 디렉토리입니다.<br>
   (A directory that implements attribute functions that can be used in the Unity editor. )
 
 <h4> [Path] Assets / MyLibrary / 99.Etc </h4>
-- 유니티에서 사용할 수 있지만 분류가 명확하지 않아 이를 구분하기 위한 디렉토리입니다.
+- 유니티에서 사용할 수 있지만 분류가 명확하지 않아 이를 구분하기 위한 디렉토리입니다.<br>
   ( It is available in Unity, but the classification is not clear, so it is a directory to distinguish them. )
 
 <h4> [Path] Assets / MyLibrary / GameTemplate </h4>
