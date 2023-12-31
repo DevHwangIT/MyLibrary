@@ -70,9 +70,6 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 
 	public virtual void Show()
 	{
-		if (!this.IsActive())
-			return;
-
 		_CanvasGroup.alpha = 1;
 		_CanvasGroup.blocksRaycasts = true;
 		this.Focus();
@@ -81,9 +78,6 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 
 	public virtual void Hide()
 	{
-		if (!this.IsActive())
-			return;
-
 		_CanvasGroup.alpha = 0;
 		_CanvasGroup.blocksRaycasts = false;
 		this.gameObject.SetActive(false);
