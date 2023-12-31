@@ -76,6 +76,7 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 		_CanvasGroup.alpha = 1;
 		_CanvasGroup.blocksRaycasts = true;
 		this.Focus();
+		this.gameObject.SetActive(true);
 	}
 
 	public virtual void Hide()
@@ -85,6 +86,7 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 
 		_CanvasGroup.alpha = 0;
 		_CanvasGroup.blocksRaycasts = false;
+		this.gameObject.SetActive(false);
 	}
 
 	#region Static Methods
@@ -92,7 +94,7 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 	public static List<UIWindow> GetWindows()
 	{
 		List<UIWindow> windows = new List<UIWindow>();
-		UIWindow[] ws = FindObjectsOfType<UIWindow>();
+		UIWindow[] ws = FindObjectsOfType<UIWindow>(true);
 
 		foreach (UIWindow w in ws)
 		{
