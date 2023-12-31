@@ -90,9 +90,9 @@ public class UIWindowManager : MonoBehaviour
 	{
 		List<UIWindow> windows = UIWindow.GetWindows();
 		windows = windows.OrderBy(x => x.Priority).ToList();
-		foreach (var window in windows)
+		for (int index=0; index<windows.Count; index++)
 		{
-			window.transform.SetAsLastSibling();
+			windows[index].transform.SetSiblingIndex(index);	
 		}
 	}
 }
