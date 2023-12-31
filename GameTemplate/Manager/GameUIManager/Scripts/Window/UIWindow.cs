@@ -9,6 +9,15 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 	public static UIWindow FocusedWindow => _FucusedWindow;
 	protected bool _IsFocused = false;
 	private CanvasGroup _CanvasGroup;
+	public CanvasGroup CanvasGroup 
+	{
+		get
+		{
+			if (_CanvasGroup == null)
+				_CanvasGroup = this.GetComponent<CanvasGroup>();
+			return _CanvasGroup;
+		}
+	}
 
 	[SerializeField] private bool isNotHideWithCancelInput;
 	public bool NotHideWithCancelInput => isNotHideWithCancelInput;
@@ -64,22 +73,21 @@ public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHand
 			return;
 
 		this._IsFocused = true;
-
 		UIWindow.OnBeforeFocusWindow(this);
 	}
 
 	public virtual void Show()
 	{
-		_CanvasGroup.alpha = 1;
-		_CanvasGroup.blocksRaycasts = true;
+		CanvasGroup.alpha = 1;
+		CanvasGroup.blocksRaycasts = true;
 		this.Focus();
 		this.gameObject.SetActive(true);
 	}
 
 	public virtual void Hide()
 	{
-		_CanvasGroup.alpha = 0;
-		_CanvasGroup.blocksRaycasts = false;
+		CanvasGroup.alpha = 0;
+		CanvasGroup.blocksRaycasts = false;
 		this.gameObject.SetActive(false);
 	}
 
