@@ -65,18 +65,18 @@ public class UIWindowManager : MonoBehaviour
 					lastWindow = window;
 				else
 				{
-					if (lastWindow.ID.Priority < window.ID.Priority)
+					if (lastWindow.Priority < window.Priority)
 						lastWindow = window;
 					else
 					{
-						Debug.Log(window.ID.ToString());
+						Debug.Log(window.ToString());
 					}
 				}
 			}
 
 			if (lastWindow == null)
 			{
-				UIWindow.GetWindow(UIWindowID.GameMenu).Show();
+				UIWindow.GetWindow<UIWindow>().Show();
 			}
 			else
 			{
@@ -89,7 +89,7 @@ public class UIWindowManager : MonoBehaviour
 	public void SortingWindowUIOrder()
 	{
 		List<UIWindow> windows = UIWindow.GetWindows();
-		windows = windows.OrderBy(x => x.ID).ToList();
+		windows = windows.OrderBy(x => x.Priority).ToList();
 		foreach (var window in windows)
 		{
 			window.transform.SetAsLastSibling();

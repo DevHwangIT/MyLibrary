@@ -3,21 +3,27 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [DisallowMultipleComponent, ExecuteInEditMode, RequireComponent(typeof(CanvasGroup))]
-public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPointerDownHandler
+public abstract class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPointerDownHandler
 {
 	protected static UIWindow _FucusedWindow;
 	public static UIWindow FocusedWindow => _FucusedWindow;
-	[SerializeField] private UIWindowID _WindowId = UIWindowID.None;
 	protected bool _IsFocused = false;
 	private CanvasGroup _CanvasGroup;
 
 	[SerializeField] private bool isNotHideWithCancelInput;
 	public bool NotHideWithCancelInput => isNotHideWithCancelInput;
+
+	[SerializeField] protected int _priority;
 	
-	public UIWindowID ID
+	public string Name
 	{
-		get { return this._WindowId; }
-		set { this._WindowId = value; }
+		get { return this.GetType().ToString(); }
+	}
+
+	public int Priority
+	{
+		get { return _priority;}
+		set { _priority = value; }
 	}
 
 	public bool IsVisible
@@ -97,20 +103,20 @@ public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPoi
 		return windows;
 	}
 
-	public static UIWindow GetWindow(UIWindowID id)
+	public static UIWindow GetWindow<T>() where T : UIWindow
 	{
 		foreach (UIWindow window in UIWindow.GetWindows())
-			if (window.ID == id)
-				return window;
+			if (window.GetType() == typeof(T))
+				return (T)window;
 		return null;
 	}
 
-	public static void FocusWindow(UIWindowID id)
+	public static void FocusWindow<T>() where T : UIWindow
 	{
-		if (UIWindow.GetWindow(id) != null)
-			UIWindow.GetWindow(id).Focus();
+		if (UIWindow.GetWindow<T>() != null)
+			UIWindow.GetWindow<T>().Focus();
 	}
-
+	
 	protected static void OnBeforeFocusWindow(UIWindow window)
 	{
 		if (_FucusedWindow != null)
